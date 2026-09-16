@@ -79,6 +79,35 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 @media (max-width:700px){.ronaldo-banner__frame{border-radius:18px}.ronaldo-banner__frame img{max-height:260px}}
 </style>
 
+
+<style>
+.shop{margin-top:18px}
+.shopHead{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+.shopHead h2,.adminHead h2{margin:0 0 4px}
+.keyBalance{border:1px solid #e5bf39;background:#201802;color:#ffe797;border-radius:12px;padding:10px 14px;font-weight:1000;box-shadow:0 0 18px #ffd55b16}
+.shopGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.shopCard{border:1px solid #286d3a;border-radius:17px;padding:17px;background:linear-gradient(145deg,#0b2613,#020a05);min-height:245px;display:flex;flex-direction:column;justify-content:space-between}
+.shopCard.crazy{border-color:#ff42e6;box-shadow:0 0 28px #ff35d522,inset 0 0 25px #ff35d511}
+.shopIcon{font-size:34px}
+.shopTitle{font-weight:1000;letter-spacing:.7px;margin-top:7px}
+.shopText{color:#91a997;font-size:12px;line-height:1.45;margin-top:7px;min-height:38px}
+.shopMeta{color:#c9d8cd;font-size:11px;margin-top:10px}
+.shopBtn{margin-top:14px;border:1px solid #52e885;background:#0b3418;color:#eaffef;border-radius:11px;padding:12px 13px;font-weight:1000;cursor:pointer}
+.shopBtn:hover{background:#125d27;box-shadow:0 0 20px #19ff6324}
+.shopBtn:disabled{opacity:.4;cursor:not-allowed}
+.finishBuildBtn{display:block;width:min(560px,100%);margin:18px auto 0;border:1px solid #ffd55b;border-radius:16px;padding:16px;background:linear-gradient(#2d2406,#151003);color:#ffe797;font-size:18px;font-weight:1000;cursor:pointer;box-shadow:0 0 28px #ffd55b18}
+.finishBuildBtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 34px #ffd55b30}
+.finishBuildBtn:disabled{opacity:.38;cursor:not-allowed}
+.adminPanel{margin-top:18px}
+.adminHead{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+.adminStatus{padding:8px 12px;border-radius:10px;border:1px solid #784646;background:#160606;color:#ff9c9c;font-size:10px;font-weight:1000}
+.adminStatus.on{border-color:#52e885;background:#06250f;color:#8fffaf}
+.adminRow{display:flex;gap:9px;margin-top:15px}
+.adminRow input{flex:1;min-width:0;background:#031008;border:1px solid #1a5c2f;color:#effff3;border-radius:11px;padding:13px 14px;font-weight:800;outline:none}
+.adminRow input:focus{border-color:var(--g);box-shadow:0 0 18px #19ff6320}
+@media(max-width:900px){.shopGrid{grid-template-columns:1fr}.adminRow{flex-direction:column}.adminRow .shopBtn{width:100%}}
+</style>
+
 </head>
 <body>
 <nav><div class="logo">♛ FOOTBALL <span>DRAFT</span></div><div class="navlinks"><a class="active" href="#">Home</a><a href="#team">Team</a><a href="#index">Index</a><a href="#">Liga</a></div><button class="resetBtn" id="resetBtn">↻ RESET</button><div class="counter">⚡ <span id="rolls">20</span> / 20 Rolls</div></nav>
@@ -112,7 +141,7 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 </div>
 
 <div class="panel leaderboardWrap" id="leaderboard">
-  <div class="leaderboardHead"><div><h2>🏆 BESTENLISTE</h2><div class="lead">Die stärksten kompletten Aufstellungen – nach Gesamtwertung sortiert.</div></div><div class="leaderboardTop">TOP 10</div></div>
+  <div class="leaderboardHead"><div><h2>🏆 BESTENLISTE</h2><div class="lead">Die stärksten Aufstellungen – du bestimmst selbst, wann deine 11 Spieler fertig sind.</div></div><div class="leaderboardTop">TOP 10</div></div>
   <div class="leaderboardTable">
     <div class="lbRow lbHead"><span>#</span><span>NAME</span><span>GES</span><span>SPIELER</span></div>
     <div id="leaderboardRows"></div>
@@ -129,6 +158,7 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 <div class="row"><div class="slot" data-pos="LV"><small>LV</small></div><div class="slot" data-pos="IV1"><small>IV</small></div><div class="slot" data-pos="IV2"><small>IV</small></div><div class="slot" data-pos="RV"><small>RV</small></div></div>
 <div class="row"><div class="slot" data-pos="TW"><small>TW</small></div></div>
 </div></div>
+<button class="finishBuildBtn" id="finishBuildBtn" disabled>🏆 AUFSTELLUNG FERTIGSTELLEN</button>
 <div class="bank" id="bank">Bank: <b>leer</b>. Bei einer belegten Position wandert der alte Spieler automatisch auf die Bank.</div>
 </section>
 
@@ -143,7 +173,57 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 </div>
 <div class="playerGrid" id="playerGrid"></div>
 <div class="notice">Die Kaderdaten werden über TheSportsDB geladen. Deren V1-Dokumentation stellt Team-Suchen, Badges und Spielerlisten bereit; der kostenlose Zugriff hat ein Rate-Limit. </div>
+
+<section class="panel shop" id="shop">
+  <div class="shopHead">
+    <div>
+      <h2>🛒 DRAFT SHOP</h2>
+      <div class="lead">Tausche deine gesammelten Gold-Spieler gegen Schlüssel und löse sie für neue Vorteile ein.</div>
+    </div>
+    <div class="keyBalance">🔑 <span id="keyCount">0</span> Schlüssel</div>
+  </div>
+
+  <div class="shopGrid">
+    <div class="shopCard">
+      <div class="shopIcon">🪙</div>
+      <div class="shopTitle">GOLD → SCHLÜSSEL</div>
+      <div class="shopText">5 Gold-Spieler gegen 1 Schlüssel.</div>
+      <div class="shopMeta">Gold-Spieler: <b id="goldCount">0</b></div>
+      <button class="shopBtn" id="goldTradeBtn">5 GOLD TAUSCHEN</button>
+    </div>
+
+    <div class="shopCard">
+      <div class="shopIcon">🎰</div>
+      <div class="shopTitle">+1 ROLL</div>
+      <div class="shopText">1 Schlüssel schenkt dir einen weiteren Roll.</div>
+      <div class="shopMeta">Kosten: <b>1 🔑</b></div>
+      <button class="shopBtn" id="rollKeyBtn">1 KEY → +1 ROLL</button>
+    </div>
+
+    <div class="shopCard crazy">
+      <div class="shopIcon">🤯</div>
+      <div class="shopTitle">100er MORITZ NICOLAS</div>
+      <div class="shopText">5 Schlüssel garantieren die 100 GES GEISTESKRANK-Karte von Borussia Mönchengladbach.</div>
+      <div class="shopMeta">Kosten: <b>5 🔑</b></div>
+      <button class="shopBtn" id="nicolasKeyBtn">5 KEYS → GARANTIERT</button>
+    </div>
+  </div>
 </section>
+
+<section class="panel adminPanel" id="admin">
+  <div class="adminHead">
+    <div>
+      <h2>🔐 ADMIN-BEREICH</h2>
+      <div class="lead">Admin-Modus ist nur für deine eigene Test-/Verwaltungsoberfläche gedacht.</div>
+    </div>
+    <div id="adminStatus" class="adminStatus">NICHT AKTIV</div>
+  </div>
+  <div class="adminRow">
+    <input id="adminCode" maxlength="32" placeholder="Admin-Code eingeben">
+    <button class="shopBtn" id="adminLoginBtn">ADMIN AKTIVIEREN</button>
+  </div>
+</section>
+
 </main>
 
 <div class="modal" id="modal"><div class="modalBox"><h2 id="modalTitle">Spieler einsetzen</h2><p id="modalText">Wähle eine Position. Ist sie belegt, wandert der bisherige Spieler auf die Bank.</p><div class="positions" id="positions"></div><button class="close" id="close">Abbrechen</button></div></div>
@@ -169,6 +249,7 @@ const SAVE_KEY="footballDraftV6";
 const LEADERBOARD_KEY="footballDraftLeaderboardV1";
 let rolls = 20,busy=false,current=[],pending=null,team=[],bank=[];
 let unlocked=new Set(), discoveredCatalog=new Map();
+let keys=0, goldTokens=0, adminMode=false;
 let finishShown=false, pendingOverall=0, leaderboard=[];
 const rosterCache=new Map(), badgeCache=new Map();
 const $=id=>document.getElementById(id); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -219,7 +300,12 @@ async function leagueBadge(league){
  const url=hit?.strBadge||"";
  cacheBadge("L:"+league,url);return url;
 }
-const TEAM_ALIASES={"Borussia Mönchengladbach":["Borussia Monchengladbach","Borussia M'gladbach","Borussia Monchengladbach"]};
+const TEAM_ALIASES={
+ "Borussia Mönchengladbach":["Borussia Monchengladbach","Borussia M'gladbach","Borussia Monchengladbach","Borussia Mönchengladbach"],
+ "Real Madrid":["Real Madrid CF","Real Madrid"],
+ "FC Barcelona":["Barcelona","FC Barcelona","Barcelona FC"],
+ "Paris Saint-Germain":["Paris Saint-Germain FC","Paris Saint-Germain","PSG","Paris SG"]
+};
 async function teamSearch(name){
  if(rosterCache.has("team:"+name))return rosterCache.get("team:"+name);
  const queries=[name,...(TEAM_ALIASES[name]||[])];
@@ -231,14 +317,49 @@ async function teamSearch(name){
  }
  rosterCache.set("team:"+name,team);return team;
 }
+
+const LIVE_FALLBACKS = {
+  "Real Madrid": [
+    ["Vinícius Júnior","LF",93],["Kylian Mbappé","ST",94],["Jude Bellingham","ZM",92],
+    ["Rodrygo","RF",88],["Federico Valverde","ZM",89],["Thibaut Courtois","TW",90]
+  ],
+  "FC Barcelona": [
+    ["Lamine Yamal","RF",94],["Pedri","ZM",89],["Raphinha","LF",90],
+    ["Robert Lewandowski","ST",92]
+  ],
+  "Paris Saint-Germain": [
+    ["Ousmane Dembélé","RF",90],["Achraf Hakimi","RV",88],["Gianluigi Donnarumma","TW",89],
+    ["Khvicha Kvaratskhelia","LF",88]
+  ]
+};
+function fallbackRoster(club, league){
+  return (LIVE_FALLBACKS[club]||[]).map(x=>({strPlayer:x[0],strPosition:x[1],strDescription:"",age:null,_fallback:true,club,league}))
+         .map(p=>({...p,strLeague:league}));
+}
+
 async function realRoster(league,club){
  if(rosterCache.has("roster:"+club))return rosterCache.get("roster:"+club);
- const teamObj=await teamSearch(club);
- if(!teamObj?.idTeam){rosterCache.set("roster:"+club,[]);return[]}
- const json=await api(`https://www.thesportsdb.com/api/v1/json/123/lookup_all_players.php?id=${teamObj.idTeam}`);
- const arr=json?.player||[];
- const clean=arr.filter(p=>p?.strPlayer).slice(0,30);
- rosterCache.set("roster:"+club,clean);return clean;
+
+ // Try all aliases and a second lookup route before giving up.
+ let teamObj=null;
+ const queries=[club,...(TEAM_ALIASES[club]||[])];
+ for(const q of [...new Set(queries)]){
+   teamObj=await teamSearch(q);
+   if(teamObj?.idTeam)break;
+ }
+ let arr=[];
+ if(teamObj?.idTeam){
+   const json=await api(`https://www.thesportsdb.com/api/v1/json/123/lookup_all_players.php?id=${teamObj.idTeam}`);
+   arr=Array.isArray(json?.player)?json.player:[];
+ }
+ // For the clubs that caused intermittent free-API failures, use a real-player fallback catalog.
+ // This keeps the game playable when the free endpoint times out/rate-limits.
+ if(arr.length<5 && LIVE_FALLBACKS[club]){
+   arr=fallbackRoster(club,league);
+ }
+ arr=arr.filter(p=>p?.strPlayer).slice(0,40);
+ rosterCache.set("roster:"+club,arr);
+ return arr;
 }
 function img(url,alt="",cls=""){return url?`<img class="${cls}" src="${esc(url)}" alt="${esc(alt)}" loading="lazy">`:`<div class="${cls}" style="display:grid;place-items:center;font-weight:1000">${esc(alt.slice(0,3).toUpperCase())}</div>`}
 function posFrom(p){
@@ -290,7 +411,7 @@ let chosen=null;
 async function draft(){
  if(busy||rolls<=0)return;
  busy=true;audioStart();$("rollBtn").disabled=true;
- rolls--; $("rolls").textContent=rolls; saveGame();$("machineState").textContent="ROLLING";$("status").textContent="🎰 LIGA WIRD GEROLLT...";$("empty").style.display="block";$("chosen").style.display="none";stage(0);
+ rolls--; $("rolls").textContent=adminMode?"∞":rolls; saveGame();$("machineState").textContent="ROLLING";$("status").textContent="🎰 LIGA WIRD GEROLLT...";$("empty").style.display="block";$("chosen").style.display="none";stage(0);
  const names=Object.keys(LEAGUES),league=names[Math.floor(Math.random()*names.length)],badge=await leagueBadge(league);
  const leagueItems=names.map(n=>itemLeague(n,badge && n===league?badge:badgeCache.get("L:"+n)));
  await spinStage(leagueItems,itemLeague(league,badge));mega();flash(`${LEAGUE_ICON[league]} ${league}`);await sleep(420);
@@ -304,7 +425,7 @@ async function draft(){
  let roster=[];
  try{roster=await realRoster(league,club)}catch(e){roster=[]}
  if(!roster.length){
-   rolls++;$("rolls").textContent=rolls;saveGame();toast("Die Live-Spielerdaten konnten gerade nicht geladen werden. Der Roll wurde zurückgegeben – bitte nochmal versuchen.");
+   if(!adminMode){rolls++;}$("rolls").textContent=adminMode?"∞":rolls;saveEconomy();updateShopUI();toast("Die Live-Spielerdaten konnten gerade nicht geladen werden. Der Roll wurde zurückgegeben – bitte nochmal versuchen.");
    busy=false;$("rollBtn").disabled=false;$("machineState").textContent="READY";return;
  }
  // Pick five real players. No invented names are used.
@@ -322,7 +443,7 @@ async function draft(){
  }
  // Very rare all-time / future icon jackpot, entirely separate from the club roster.
  if(Math.random()<0.035){await sleep(450);specialSound();const s=SPECIALS[Math.floor(Math.random()*SPECIALS.length)];const isNicolas=s[0]==="Moritz Nicolas";const p={name:s[0],pos:isNicolas?"TW":"ST",rating:s[2],team:isNicolas?"Borussia Mönchengladbach":"LEGEND",league:isNicolas?"Bundesliga":"SPECIAL",special:true};current.push(p);registerPlayer(p);renderLibrary();const el=document.createElement("div");el.className="choice in";el.style.borderColor="#e45cff";el.innerHTML=`<div class="miniCard" style="background:linear-gradient(145deg,#ff43d5,#5723dd)"><b>${s[2]}</b></div><div><div class="choiceName">🤯 ${esc(s[0])}</div><div class="choiceMeta">GEISTESKRANK · ${esc(s[1])}${isNicolas?" · TW · BMG":""}</div><div class="choicePick">SPEZIAL-PICK → EINSETZEN</div></div><div class="choiceRating">${s[2]}</div>`;el.onclick=()=>openPlacement(p);$("choiceList").appendChild(el);flash("🤯 GEISTESKRANK!");toast("🤯 GEISTESKRANKE Spezialkarte!");}
- $("machineState").textContent="PICK";$("status").textContent=rolls?`WÄHLE DEINEN SPIELER · ${rolls} Rolls übrig`:"ALLE ROLLS VERBRAUCHT";busy=false;$("rollBtn").disabled=rolls<=0;
+ $("machineState").textContent="PICK";$("status").textContent=adminMode?"WÄHLE DEINEN SPIELER · ∞ Rolls":(rolls?`WÄHLE DEINEN SPIELER · ${rolls} Rolls übrig`:"ALLE ROLLS VERBRAUCHT");busy=false;updateShopUI();
 }
 function stage(n){["st1","st2","st3"].forEach((id,i)=>$(id).classList.toggle("on",i===n))}
 
@@ -342,17 +463,18 @@ function openPlacement(p){pending=p;$("modalTitle").textContent=`${p.name} · ${
  const opts=compatible(p.pos);$("positions").innerHTML=opts.map(s=>{const old=existing(s);return `<button class="pos" data-slot="${s}">${s}<br><small>${old?`↔ ${esc(old.name)}`:"FREI"}</small></button>`}).join("");document.querySelectorAll(".pos").forEach(b=>b.onclick=()=>place(p,b.dataset.slot));$("modal").classList.add("show")}
 function place(p,slot){
  const old=existing(slot);if(old){bank.push(old);toast(`↔ ${old.name} geht auf die Bank – ${p.name} übernimmt ${slot}.`)}
- team=team.filter(x=>x.slot!==slot);team.push({...p,slot});unlockPlayer(p);current=[];$("modal").classList.remove("show");$("rolls").textContent=rolls;$("status").textContent=rolls?`Pick gespeichert · ${rolls} Rolls übrig`:"🏆 DRAFT KOMPLETT";$("choiceList").innerHTML=`<div style="text-align:center;color:#93a998;padding:12px">Pick gespeichert · nächster Roll bereit.</div>`;renderTeam();saveGame();mega();if(rolls<=0)$("rollBtn").disabled=true;
+ team=team.filter(x=>x.slot!==slot);team.push({...p,slot});unlockPlayer(p);addGoldToken(p);current=[];$("modal").classList.remove("show");$("rolls").textContent=rolls;$("status").textContent=rolls?`Pick gespeichert · ${rolls} Rolls übrig`:"🏆 20 ROLLS VERBRAUCHT";$("choiceList").innerHTML=`<div style="text-align:center;color:#93a998;padding:12px">Pick gespeichert · nächster Roll bereit.</div>`;renderTeam();saveGame();mega();if(rolls<=0)$("rollBtn").disabled=true;
  if(team.length<11)finishShown=false;
- if(team.length===11&&!finishShown)showFinish();
+ 
 }
 $("close").onclick=()=>$("modal").classList.remove("show");$("modal").onclick=e=>{if(e.target.id==="modal")$("modal").classList.remove("show")};
-$("saveScore").onclick=submitScore;$("closeFinish").onclick=()=>$("finishModal").classList.remove("show");$("finishModal").onclick=e=>{if(e.target.id==="finishModal")$("finishModal").classList.remove("show")};$("finishName").addEventListener("keydown",e=>{if(e.key==="Enter")submitScore()});
+$("saveScore").onclick=submitScore;$("closeFinish").onclick=()=>$("finishModal").classList.remove("show");
+$("finishBuildBtn").onclick=()=>{if(team.length===11)showFinish();};$("finishModal").onclick=e=>{if(e.target.id==="finishModal")$("finishModal").classList.remove("show")};$("finishName").addEventListener("keydown",e=>{if(e.key==="Enter")submitScore()});
 $("rollBtn").onclick=draft;
 
 function renderTeam(){
  document.querySelectorAll(".slot").forEach(el=>{const x=existing(el.dataset.pos);if(x){el.classList.add("filled");el.innerHTML=`<small>${x.pos}</small><strong>${esc(x.name)}</strong>`}else{el.classList.remove("filled");el.innerHTML=`<small>${el.dataset.pos.replace(/[0-9]/g,"")}</small>`}});
- $("teamCount").textContent=`${team.length} / 11 Spieler`;$("ovr").textContent=team.length?Math.round(team.reduce((a,x)=>a+x.rating,0)/team.length):0;$("bank").innerHTML=bank.length?`Bank: <b>${bank.map(x=>esc(x.name)).join(" · ")}</b>`:`Bank: <b>leer</b>.`;
+ $("teamCount").textContent=`${team.length} / 11 Spieler`;$("ovr").textContent=team.length?Math.round(team.reduce((a,x)=>a+x.rating,0)/team.length):0;$("finishBuildBtn").disabled=team.length!==11;$("bank").innerHTML=bank.length?`Bank: <b>${bank.map(x=>esc(x.name)).join(" · ")}</b>`:`Bank: <b>leer</b>.`;
 }
 
 
@@ -412,9 +534,72 @@ function submitScore(){
  leaderboard.sort((a,b)=>b.rating-a.rating||a.date-b.date);leaderboard=leaderboard.slice(0,10);saveLeaderboard();renderLeaderboard();$("finishModal").classList.remove("show");toast(`🏆 ${name} ist mit ${pendingOverall} GES auf der Bestenliste!`);
 }
 
+
+function saveEconomy(){
+  localStorage.setItem(SAVE_KEY,JSON.stringify({
+    rolls,unlocked:[...unlocked],team,bank,keys,goldTokens,adminMode
+  }));
+}
+function updateShopUI(){
+  $("keyCount").textContent=adminMode?"∞":keys;
+  $("goldCount").textContent=goldTokens;
+  $("goldTradeBtn").disabled=!adminMode && goldTokens<5;
+  $("rollKeyBtn").disabled=!adminMode && keys<1;
+  $("nicolasKeyBtn").disabled=!adminMode && keys<5;
+  $("adminStatus").textContent=adminMode?"AKTIV · UNBEGRENZTE ROLLS":"NICHT AKTIV";
+  $("adminStatus").classList.toggle("on",adminMode);
+  $("rolls").textContent=adminMode?"∞":rolls;
+  $("rollBtn").disabled=busy || (!adminMode && rolls<=0);
+}
+function spendKeys(n){
+  if(adminMode)return true;
+  if(keys<n){toast(`🔑 Du brauchst ${n} Schlüssel.`);return false;}
+  keys-=n;saveEconomy();updateShopUI();return true;
+}
+function addGoldToken(p){
+  if(!p||p.special)return;
+  if(tier(p.rating) === "gold"){
+    goldTokens++;
+    saveEconomy();
+    updateShopUI();
+  }
+}
+function tradeGoldForKey(){
+  if(!adminMode && goldTokens<5){toast("🪙 Du brauchst 5 Gold-Spieler.");return;}
+  if(!adminMode)goldTokens-=5;
+  keys++;
+  saveEconomy();updateShopUI();
+  mega();toast("🔑 Neuer Schlüssel erhalten!");
+}
+function buyRoll(){
+  if(!spendKeys(1))return;
+  if(!adminMode)rolls++;
+  saveEconomy();updateShopUI();toast(adminMode?"♾️ Admin: unbegrenzte Rolls":"🎰 +1 Roll gekauft!");
+}
+function addGuaranteedNicolas(){
+  if(!spendKeys(5))return;
+  const p={name:"Moritz Nicolas",pos:"TW",rating:100,team:"Borussia Mönchengladbach",league:"Bundesliga",special:true};
+  registerPlayer(p);current=[p];unlocked.add(p.name);
+  // Put the guaranteed card into the current pick view so it can be placed immediately.
+  $("empty").style.display="none";$("chosen").style.display="block";$("teamName").textContent="Borussia Mönchengladbach";$("leagueName").textContent="🇩🇪 Bundesliga";
+  $("teamBadge").removeAttribute("src");
+  $("teamBadge").alt="Borussia Mönchengladbach";
+  $("choiceList").innerHTML="";
+  const el=document.createElement("div");el.className="choice in";el.style.borderColor="#ff4be0";
+  el.innerHTML=`<div class="miniCard" style="background:linear-gradient(145deg,#ff43d5,#5723dd)"><b>100</b></div><div><div class="choiceName">🤯 Moritz Nicolas</div><div class="choiceMeta">GEISTESKRANK · TW · BORUSSIA MÖNCHENGLADBACH</div><div class="choicePick">SICHERER SHOP-PICK → EINSETZEN</div></div><div class="choiceRating">100</div>`;
+  el.onclick=()=>openPlacement(p);$("choiceList").appendChild(el);
+  flash("🤯 100 GES GARANTIERT!");specialSound();renderLibrary();saveEconomy();toast("👑 Moritz Nicolas 100 GES ist garantiert!");
+}
+function activateAdmin(){
+  const code=String($("adminCode").value||"").trim();
+  if(code!=="WigaOG"){toast("❌ Falscher Admin-Code.");return;}
+  adminMode=true;rolls=999999;keys=0;goldTokens=0;
+  saveEconomy();updateShopUI();$("adminCode").value="";toast("🔐 ADMIN MODUS AKTIV · UNBEGRENZTE ROLLS · SHOP GRATIS");
+}
+
 function saveGame(){
  localStorage.setItem(SAVE_KEY,JSON.stringify({
-   rolls,unlocked:[...unlocked],team,bank
+   rolls,unlocked:[...unlocked],team,bank,keys,goldTokens,adminMode
  }));
 }
 function loadGame(){
@@ -427,18 +612,26 @@ function loadGame(){
   unlocked=new Set(Array.isArray(s.unlocked)?s.unlocked:[]);
   team=Array.isArray(s.team)?s.team:[];
   bank=Array.isArray(s.bank)?s.bank:[];
+  keys=Number.isFinite(s.keys)?s.keys:0;
+  goldTokens=Number.isFinite(s.goldTokens)?s.goldTokens:0;
+  adminMode=!!s.adminMode;
  }catch(e){}
  $("rolls").textContent=rolls;
 }
 function resetGame(){
  if(!confirm("Wirklich den kompletten Spielstand zurücksetzen? Team, Bank, Rolls und Freischaltungen werden gelöscht."))return;
  localStorage.removeItem(SAVE_KEY);
- rolls = 20;busy=false;current=[];pending=null;team=[];bank=[];unlocked=new Set();
+ rolls = 20;busy=false;current=[];pending=null;team=[];bank=[];unlocked=new Set();keys=0;goldTokens=0;adminMode=false;
  $("rolls").textContent=rolls;$("status").textContent="20 Rolls verfügbar";$("machineState").textContent="READY";
  $("rollBtn").disabled=false;$("empty").style.display="block";$("chosen").style.display="none";$("choiceList").innerHTML="";
- finishShown=false;renderTeam();renderLibrary();toast("↻ Spielstand zurückgesetzt");
+ finishShown=false;renderTeam();renderLibrary();updateShopUI();toast("↻ Spielstand zurückgesetzt");
 }
 $("resetBtn").onclick=resetGame;
+
+$("goldTradeBtn").onclick=tradeGoldForKey;
+$("rollKeyBtn").onclick=buyRoll;
+$("nicolasKeyBtn").onclick=addGuaranteedNicolas;
+$("adminLoginBtn").onclick=activateAdmin;
 
 function registerPlayer(p){
  if(!p||!p.name)return;
@@ -484,7 +677,7 @@ function renderLibrary(){
  $("totalCount").textContent=all.length;
 }
 $("search").oninput=renderLibrary;$("tierFilter").onchange=renderLibrary;
-loadGame();renderLeagues();renderLibrary();renderTeam();
+loadGame();renderLeagues();renderLibrary();renderTeam();updateShopUI();
 </script>
 </body>
 </html>
