@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Football Draft V6</title>
+<title>Football Draft // Ultimate XI</title>
 
 
 <style>
@@ -70,7 +70,7 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 .resetBtn{border:1px solid #a9ff6c;background:#0a2110;color:#d9ffc2;border-radius:10px;padding:9px 12px;font-weight:1000;cursor:pointer;box-shadow:0 0 16px #19ff6314}.resetBtn:hover{background:#12391a;border-color:var(--g);color:var(--g)}
 .indexCount{border:1px solid #246f38;background:#04120a;border-radius:11px;padding:9px 13px;color:#bfe4c8;font-weight:1000}.indexCount span:first-child{color:var(--g);font-size:20px}
 .card.locked{filter:grayscale(1);opacity:.42;background:linear-gradient(145deg,#202522,#080a09)!important;border-color:#66706a!important;box-shadow:none!important;cursor:default}.card.locked .avatar{filter:blur(7px);opacity:.3}.card.locked .name{filter:blur(6px);color:#9da79f}.card.locked .meta,.card.locked .stats{visibility:hidden}.lockIcon{font-size:18px}
-</style>
+.ratingSourceNote{margin:8px 0 -2px;color:#6f8c79;font-size:10px;letter-spacing:.3px}
 
 <style>
 .ronaldo-banner{width:100%;display:flex;justify-content:center;align-items:center;margin:16px 0 4px;}
@@ -108,8 +108,459 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 @media(max-width:900px){.shopGrid{grid-template-columns:1fr}.adminRow{flex-direction:column}.adminRow .shopBtn{width:100%}}
 </style>
 
+
+<style id="v9-visual">
+:root{
+  --fc-green:#18ff70;--fc-green2:#0aa94b;--fc-black:#010504;--fc-deep:#04110a;
+  --fc-white:#f6fff9;--fc-muted:#8ea99a;--fc-gold:#ffd85a;--fc-pink:#ff49df;--fc-blue:#60d7ff;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 0%,rgba(38,255,130,.24),transparent 28%),
+    radial-gradient(circle at 88% 8%,rgba(110,255,190,.14),transparent 24%),
+    linear-gradient(135deg,#010504 0%,#03140a 42%,#020604 100%);
+}
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+    linear-gradient(122deg,transparent 0 28%,rgba(27,255,118,.12) 28.1% 28.7%,transparent 28.8% 58%,rgba(255,255,255,.07) 58.1% 60%,transparent 60.2%),
+    linear-gradient(152deg,transparent 0 52%,rgba(27,255,118,.08) 52.1% 56%,transparent 56.2%);
+  mix-blend-mode:screen;
+}
+nav{background:rgba(0,8,4,.82);border-bottom:1px solid rgba(25,255,99,.22)}
+.logo{letter-spacing:-1.2px;text-transform:uppercase}
+.logo:after{content:" // DRAFT LAB";color:#77a68a;font-size:.55em;letter-spacing:1px;margin-left:7px}
+.hero{
+  position:relative;overflow:hidden;border-radius:28px;padding:34px 32px;margin-bottom:18px;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(110deg,rgba(1,7,4,.96) 0 34%,rgba(4,22,12,.80) 56%,rgba(1,8,4,.95) 100%);
+  box-shadow:0 24px 80px rgba(0,0,0,.45), inset 0 0 80px rgba(22,255,99,.08);
+}
+.hero:before,.hero:after{content:"";position:absolute;pointer-events:none;filter:blur(.2px)}
+.hero:before{width:120%;height:28px;right:-25%;top:28%;background:linear-gradient(90deg,transparent,rgba(20,255,112,.9),transparent);transform:rotate(-31deg);box-shadow:0 0 30px rgba(20,255,112,.5)}
+.hero:after{width:90%;height:180px;right:-28%;top:-54px;border-right:60px solid rgba(255,255,255,.95);border-bottom:38px solid rgba(255,255,255,.7);transform:skewX(-20deg);opacity:.14}
+.hero h1{position:relative;z-index:2;font-size:clamp(38px,7vw,82px);line-height:.88;margin:0;font-weight:1000;letter-spacing:-4px;text-transform:uppercase}
+.hero p{position:relative;z-index:2;max-width:700px;color:#a8c1b0;font-size:14px;line-height:1.5;margin:15px 0 0}
+.heroKicker{position:relative;z-index:2;display:inline-flex;gap:8px;align-items:center;padding:7px 10px;border:1px solid rgba(116,255,170,.25);border-radius:999px;color:#dfffe9;background:rgba(10,49,24,.35);font-size:10px;font-weight:1000;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:14px}
+.btn,.rollBtn,.shopBtn,.resetBtn,.finishBuildBtn,.pos,.close,.filters input,.filters select,.adminRow button{transition:transform .12s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+.btn:hover,.rollBtn:hover:not(:disabled),.shopBtn:hover:not(:disabled),.resetBtn:hover,.finishBuildBtn:hover:not(:disabled),.pos:hover,.close:hover,.adminRow button:hover{transform:translateY(-1px)}
+button:active,.btn:active{transform:scale(.975)}
+</style>
+
+
+<style id="v9-walkout-css">
+.walkout{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:500;background:rgba(0,0,0,.97);overflow:hidden}
+.walkout.show{display:flex}
+.walkout:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 50% 42%,rgba(26,255,112,.2),transparent 25%),linear-gradient(110deg,transparent 40%,rgba(255,255,255,.08) 41% 44%,transparent 45%);transform:rotate(-12deg);animation:walkBeam 1.8s ease-in-out infinite}
+.walkoutInner{position:relative;width:min(860px,94vw);text-align:center;padding:38px 20px}
+.walkoutKicker{font-size:clamp(26px,5vw,58px);font-weight:1000;font-style:italic;letter-spacing:2px;color:#fff;text-shadow:0 0 20px rgba(255,255,255,.7),0 0 65px rgba(24,255,112,.65);animation:walkIn .65s cubic-bezier(.2,.9,.2,1)}
+.walkoutReveal{margin-top:28px;display:grid;gap:8px;opacity:0}
+.walkoutReveal.show{animation:stepIn .36s ease forwards}
+.walkoutLabel{font-size:11px;letter-spacing:2px;color:#89a994;font-weight:1000;text-transform:uppercase}
+.walkoutValue{font-size:clamp(24px,5vw,54px);font-weight:1000;line-height:.95}
+.walkoutPlayer{font-size:clamp(44px,9vw,100px);letter-spacing:-3px}
+.walkoutRating{font-size:clamp(70px,16vw,180px);font-weight:1000;line-height:.78;margin-top:10px}
+.walkout.r-95 .walkoutRating{color:#ff56ec;text-shadow:0 0 20px #ff56ec,0 0 80px #a72be8}
+.walkout.r-98 .walkoutRating{color:#f7f2ff;text-shadow:0 0 20px #b4a7ff,0 0 100px #7f4dff}
+.walkout.r-100 .walkoutInner{transform:scale(1.02)}
+.walkout.r-100{background:#000}
+.walkout.r-100:after{content:"";position:absolute;inset:0;background:conic-gradient(from 180deg,transparent 0 20%,rgba(24,255,112,.18),transparent 38% 60%,rgba(255,255,255,.10),transparent 75%);animation:universeSpin 2.6s linear infinite}
+.walkout.r-100 .walkoutKicker{font-size:clamp(34px,7vw,88px);color:#eafff0;text-shadow:0 0 20px #1cff73,0 0 100px #00ff66}
+.walkout.r-100 .walkoutRating{font-size:clamp(100px,22vw,250px);background:linear-gradient(180deg,#fff,#bcffe0 46%,#26ff7a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);text-shadow:none}
+.walkout.r-100 .walkoutPlayer{animation:universePlayer 1.2s ease .85s both}
+@keyframes walkIn{0%{opacity:0;transform:translateY(18px) scale(.7)}60%{opacity:1;transform:translateY(0) scale(1.08)}100%{transform:scale(1)}}
+@keyframes stepIn{from{opacity:0;transform:translateY(12px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes walkBeam{0%,100%{transform:rotate(-12deg) translateX(-3%)}50%{transform:rotate(-12deg) translateX(8%)}}
+@keyframes universeSpin{to{transform:rotate(360deg)}}
+@keyframes universePlayer{0%{opacity:0;letter-spacing:-9px;transform:scale(.75)}70%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:none}}
+</style>
+
+
+<style id="v9-card-tiers">
+.card.insane{border-color:#ff4be0;background:radial-gradient(circle at 50% 0,#ff4be055,#26062b 62%,#08030a);box-shadow:0 0 34px #ff32dc45,inset 0 0 28px #ff2cc51c}
+.card.icon{border-color:#b6a6ff;background:radial-gradient(circle at 50% 0,#8b67ff55,#11081d 62%,#04020a);box-shadow:0 0 42px #845cff52,inset 0 0 34px #a581ff19}
+.card.universe{border-color:#28ff8a;background:radial-gradient(circle at 50% 0,#28ff8a66,#042518 52%,#020806);box-shadow:0 0 70px #19ff6370,inset 0 0 50px #19ff6335;animation:universePulse 1.5s ease-in-out infinite}
+.card.universe:before{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent 0 72%,rgba(255,255,255,.22),transparent 79%);animation:cardSpin 3.5s linear infinite}
+@keyframes universePulse{50%{transform:translateY(-4px) scale(1.015);box-shadow:0 0 85px #19ff6380,inset 0 0 70px #19ff6345}}
+@keyframes cardSpin{to{transform:rotate(360deg)}}
+</style>
+
+
+<style id="v10-formation">
+.pitch{
+  min-height:700px;padding:44px 4% 34px;border-radius:26px;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(93,255,155,.20),transparent 25%),
+    linear-gradient(180deg,rgba(9,65,34,.95),rgba(2,34,18,.98));
+  box-shadow:inset 0 0 80px rgba(0,0,0,.35),0 24px 60px rgba(0,0,0,.22);
+}
+.pitch:before{
+  inset:3.5%;border:2px solid rgba(235,255,245,.22);border-radius:18px;
+  box-shadow:inset 0 0 35px rgba(120,255,190,.05);
+}
+.pitch:after{left:4%;right:4%;top:50%;border-color:rgba(235,255,245,.16)}
+.slots{min-height:610px;gap:18px}
+.row{gap:28px;align-items:center}
+.row:nth-child(2),.row:nth-child(4){justify-content:space-between}
+.row:nth-child(3){justify-content:center;gap:42px}
+.slot{
+  width:98px;height:132px;border:0;background:transparent;box-shadow:none;border-radius:0;
+  overflow:visible;display:block;cursor:pointer;transition:transform .16s ease,filter .16s ease;
+}
+.slot:hover{transform:translateY(-5px) scale(1.035);filter:brightness(1.07)}
+.slot.filled{border:0;background:transparent;box-shadow:none;animation:none}
+.slot > .emptySlot{
+  width:74px;height:74px;margin:22px auto 0;border-radius:50%;
+  border:1px dashed rgba(196,255,218,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(2,13,8,.35);color:#bddec8;backdrop-filter:blur(4px)
+}
+.emptySlot span{font-size:28px;line-height:1}.emptySlot small{margin-top:2px;font-weight:1000;letter-spacing:1px}
+.formationCard{
+  --edge:#e7e8cf;--bg1:#8f8d72;--bg2:#d7d8bf;--ink:#111;position:relative;width:96px;height:128px;
+  margin:0 auto;border-radius:12px;overflow:hidden;color:var(--ink);cursor:pointer;
+  border:2px solid var(--edge);
+  background:
+    radial-gradient(circle at 30% 25%,rgba(255,255,255,.7),transparent 28%),
+    linear-gradient(155deg,var(--bg2) 0%,var(--bg1) 46%,#7a795f 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.33),0 0 0 1px rgba(255,255,255,.22) inset;
+  clip-path:polygon(16% 0,84% 0,100% 13%,92% 92%,76% 100%,24% 100%,8% 92%,0 13%);
+  transition:transform .15s ease,box-shadow .18s ease
+}
+.formationCard:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 12px 25px rgba(0,0,0,.42),0 0 22px rgba(101,255,162,.20)}
+.fcShine{position:absolute;inset:-40% -15%;transform:rotate(28deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:fcSweep 4.8s infinite;pointer-events:none}
+.fcTop{position:relative;display:flex;justify-content:space-between;align-items:flex-start;padding:11px 10px 0;z-index:2}
+.fcRating{display:block;font-size:24px;line-height:.8;font-weight:1000;letter-spacing:-1px}.fcPos{display:block;font-size:8px;margin-top:3px;font-weight:1000;text-transform:uppercase}
+.fcRare{font-size:6px;font-weight:1000;max-width:41px;text-align:right;line-height:1.05}
+.fcPhotoWrap{position:absolute;top:25px;left:20px;width:58px;height:58px;z-index:2;display:grid;place-items:end center}
+.formationPhoto{width:58px;height:58px;object-fit:cover;object-position:center top;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.fallbackPhoto{
+  border-radius:48% 48% 44% 44%;background:linear-gradient(145deg,#334b42,#16261f);
+  color:#effff5;font-weight:1000;font-size:18px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25)
+}
+.fcName{position:absolute;left:10px;right:10px;top:84px;text-align:center;font-size:9px;font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:2}
+.fcBottom{position:absolute;left:10px;right:10px;bottom:13px;display:flex;gap:3px;align-items:center;justify-content:center;z-index:2}
+.fcFlag{font-size:12px;line-height:1}.formationClubLogo{width:13px;height:13px;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+.formationClubLogoFallback{font-size:11px}.fcTeam{font-size:6px;font-weight:1000;max-width:37px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fcBadge{position:absolute;left:50%;transform:translateX(-50%);bottom:2px;font-size:5px;font-weight:1000;letter-spacing:.6px;text-transform:uppercase;opacity:.8}
+.fcGold{--edge:#ead36d;--bg1:#a98831;--bg2:#f6da72}
+.fcSilver{--edge:#d4e0e7;--bg1:#76818a;--bg2:#dbe5e8}
+.fcBronze{--edge:#b67d43;--bg1:#8a5731;--bg2:#c68c52}
+.fcInsane{--edge:#ff4bd8;--bg1:#712a7d;--bg2:#ff75e5;color:#fff}
+.fcIcon{--edge:#b8a6ff;--bg1:#41237c;--bg2:#b49aff;color:#fff}
+.fcUniverse{--edge:#70ffb0;--bg1:#07542f;--bg2:#31ff8c;color:#f8fff9;box-shadow:0 0 30px rgba(36,255,125,.36),0 8px 22px rgba(0,0,0,.35)}
+.fcInsane .fcRating,.fcIcon .fcRating,.fcUniverse .fcRating{color:#fff}
+@keyframes fcSweep{0%,55%{transform:translateX(-60%) rotate(28deg)}78%,100%{transform:translateX(60%) rotate(28deg)}}
+@media(max-width:800px){
+  .pitch{min-height:610px;padding:32px 2% 26px}.slots{min-height:535px;gap:10px}.row{gap:8px}.row:nth-child(3){gap:8px}.slot{width:79px;height:116px}
+  .formationCard{width:76px;height:108px}.fcTop{padding:9px 7px 0}.fcRating{font-size:20px}.fcPos{font-size:7px}.fcRare{font-size:5px}
+  .fcPhotoWrap{top:23px;left:15px;width:47px;height:47px}.formationPhoto{width:47px;height:47px}.fcName{top:69px;left:6px;right:6px;font-size:8px}
+  .fcBottom{bottom:10px;left:6px;right:6px}.fcFlag{font-size:10px}.formationClubLogo{width:11px;height:11px}.fcTeam{font-size:5px;max-width:30px}
+}
+</style>
+
+
+<style id="v10-walkout">
+.walkout.show{animation:woFade .22s ease both}
+.walkout.r-95 .walkoutKicker{letter-spacing:4px}
+.walkout.r-98 .walkoutKicker{letter-spacing:5px}
+.walkout.r-100 .walkoutKicker{font-style:italic;transform:skewX(-8deg);letter-spacing:7px}
+.walkout.r-100 .walkoutInner:before{
+  content:"";position:absolute;left:50%;top:-30px;transform:translateX(-50%);
+  width:min(470px,85vw);height:2px;background:linear-gradient(90deg,transparent,#45ff9d,transparent);
+  box-shadow:0 0 20px #45ff9d
+}
+.walkout.r-100 .walkoutSteps{filter:drop-shadow(0 0 22px rgba(38,255,130,.22))}
+@keyframes woFade{from{opacity:0}to{opacity:1}}
+</style>
+
+
+<style id="v11-pitch">
+.pitch{
+  background:
+    radial-gradient(circle at 50% 50%,rgba(120,255,170,.16),transparent 27%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 8%,rgba(0,0,0,.035) 8% 16%),
+    linear-gradient(180deg,#087a38 0%,#06692f 45%,#045728 100%);
+}
+.pitch:before{
+  inset:4%;border:2px solid rgba(241,255,246,.34);border-radius:6px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),inset 0 0 55px rgba(0,0,0,.16);
+}
+.pitch:after{
+  content:"";position:absolute;left:4%;right:4%;top:50%;border-top:2px solid rgba(245,255,248,.26);
+}
+.pitchMarkings{position:absolute;inset:4%;pointer-events:none;z-index:1}
+.pitchMarkings:before{
+  content:"";position:absolute;left:50%;top:50%;width:128px;height:128px;transform:translate(-50%,-50%);
+  border:2px solid rgba(245,255,248,.24);border-radius:50%;
+}
+.pitchMarkings:after{
+  content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;transform:translate(-50%,-50%);
+  border-radius:50%;background:rgba(245,255,248,.5);
+}
+.pitchBox{position:absolute;border:2px solid rgba(245,255,248,.23)}
+.pitchBox.top{left:31%;right:31%;top:0;height:18%}
+.pitchBox.topSmall{left:41%;right:41%;top:0;height:7%}
+.pitchBox.bottom{left:31%;right:31%;bottom:0;height:18%}
+.pitchBox.bottomSmall{left:41%;right:41%;bottom:0;height:7%}
+.pitchArc{position:absolute;left:50%;width:90px;height:55px;transform:translateX(-50%);border:2px solid rgba(245,255,248,.21)}
+.pitchArc.top{top:18%;transform:translate(-50%,-50%);border-bottom:0;border-radius:90px 90px 0 0}
+.pitchArc.bottom{bottom:18%;transform:translate(-50%,50%);border-top:0;border-radius:0 0 90px 90px}
+</style>
+
+
+<style id="v11-face">
+.formationPhoto{
+  width:58px;height:62px;object-fit:cover;object-position:50% 8%;
+  border-radius:48% 48% 42% 42%;
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,.30));
+  -webkit-mask-image:linear-gradient(to bottom,#000 0 82%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0 82%,transparent 100%);
+}
+.fcPhotoWrap{top:22px;left:19px;width:60px;height:63px;align-items:start;justify-items:center}
+.fallbackPhoto{width:58px;height:62px;border-radius:48% 48% 42% 42%}
+@media(max-width:800px){
+  .formationPhoto{width:47px;height:52px;object-position:50% 8%}
+  .fcPhotoWrap{top:19px;left:14px;width:49px;height:53px}
+  .fallbackPhoto{width:47px;height:52px}
+}
+</style>
+
+
+<style id="v11-walkout">
+.walkout{background:#010101}
+.walkout:before{
+  content:"";position:absolute;left:-15%;right:-15%;bottom:-12%;height:70%;
+  background:radial-gradient(ellipse at 35% 100%,rgba(255,80,10,.34),transparent 35%),
+             radial-gradient(ellipse at 68% 100%,rgba(255,170,30,.25),transparent 32%);
+  filter:blur(12px);animation:fireBreath 1.1s ease-in-out infinite alternate;
+}
+.fireLayer,.fireLayer:before,.fireLayer:after{
+  position:absolute;bottom:-8%;width:160px;height:290px;border-radius:50% 50% 38% 38%;
+  filter:blur(10px);opacity:.65;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 75%,#fff 0 4%,#ffd24b 7% 19%,#ff681d 28% 48%,transparent 68%);
+}
+.fireLayer{left:7%;transform:rotate(-7deg);animation:fireA 1.35s ease-in-out infinite alternate}
+.fireLayer:before{content:"";left:125%;bottom:-14%;transform:scale(.85) rotate(10deg);animation:fireB 1.15s ease-in-out infinite alternate}
+.fireLayer:after{content:"";left:470%;bottom:-5%;transform:scale(1.2) rotate(-5deg);animation:fireC .95s ease-in-out infinite alternate}
+.emberField{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.emberField span{
+  position:absolute;bottom:-10px;width:4px;height:9px;border-radius:50%;
+  background:#ffcc65;box-shadow:0 0 12px #ff6d1f;animation:emberFly linear infinite;
+}
+.emberField span:nth-child(1){left:12%;animation-duration:2.6s}.emberField span:nth-child(2){left:23%;animation-duration:3.1s}.emberField span:nth-child(3){left:34%;animation-duration:2.2s}.emberField span:nth-child(4){left:46%;animation-duration:3.5s}.emberField span:nth-child(5){left:58%;animation-duration:2.5s}.emberField span:nth-child(6){left:71%;animation-duration:3s}.emberField span:nth-child(7){left:83%;animation-duration:2.4s}.emberField span:nth-child(8){left:92%;animation-duration:3.4s}
+.walkoutRoom{
+  position:relative;min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 48%,rgba(255,111,28,.13),transparent 24%),
+             linear-gradient(180deg,#020202,#060606 58%,#130602);
+}
+.walkoutRoom:before{
+  content:"";position:absolute;left:9%;right:9%;top:8%;bottom:8%;
+  border-left:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.05);
+  transform:perspective(700px) rotateX(7deg);
+}
+.walkoutInner{z-index:4}
+.walkoutContinue{
+  margin-top:20px;display:none;position:relative;z-index:10;
+  border:1px solid rgba(255,255,255,.20);background:rgba(2,8,4,.72);color:#fff;
+  border-radius:999px;padding:12px 20px;font-weight:1000;letter-spacing:1.2px;cursor:pointer;
+}
+.walkoutContinue.show{display:inline-flex;animation:stepIn .35s ease}
+.walkoutPresented{display:none;position:relative;margin:20px auto 0;width:min(360px,70vw);height:465px;align-items:center;justify-content:center}
+.walkoutPresented.show{display:flex;animation:cardPresent .75s cubic-bezier(.18,.88,.2,1) both}
+.walkoutBigCard{
+  width:300px;height:420px;border-radius:24px;position:relative;overflow:hidden;
+  clip-path:polygon(14% 0,86% 0,100% 10%,94% 92%,78% 100%,22% 100%,6% 92%,0 10%);
+  display:flex;flex-direction:column;align-items:center;padding:24px 24px 20px;
+  background:radial-gradient(circle at 50% 8%,rgba(255,255,255,.8),transparent 16%),
+             linear-gradient(155deg,#37345f 0%,#17152e 42%,#070712 100%);
+  border:2px solid #a896ff;box-shadow:0 0 35px rgba(137,109,255,.55),0 25px 70px rgba(0,0,0,.50);
+}
+.walkoutBigCard.insane{background:linear-gradient(155deg,#771e64,#2a0b35 46%,#09020b);border-color:#ff50da;box-shadow:0 0 45px rgba(255,73,218,.58),0 25px 70px rgba(0,0,0,.55)}
+.walkoutBigCard.universe{background:linear-gradient(155deg,#0c7d45,#073622 48%,#010a05);border-color:#4dffa0;box-shadow:0 0 70px rgba(40,255,124,.70),0 25px 70px rgba(0,0,0,.6)}
+.walkoutBigCard .wbTop{width:100%;display:flex;justify-content:space-between;align-items:flex-start;color:#fff}
+.walkoutBigCard .wbRating{font-size:42px;line-height:.82;font-weight:1000}
+.walkoutBigCard .wbPos{font-size:13px;font-weight:1000;margin-top:5px}
+.walkoutBigCard .wbLabel{font-size:8px;font-weight:1000;opacity:.82;text-align:right}
+.walkoutBigPhoto{
+  width:190px;height:190px;margin:8px auto 0;object-fit:cover;object-position:50% 8%;
+  border-radius:45% 45% 40% 40%;filter:drop-shadow(0 13px 9px rgba(0,0,0,.42))
+}
+.walkoutBigInitials{width:190px;height:190px;margin:8px auto 0;border-radius:50%;background:linear-gradient(145deg,#45575f,#101519);display:grid;place-items:center;font-weight:1000;font-size:54px;color:#fff}
+.walkoutBigName{font-size:29px;font-weight:1000;letter-spacing:-1px;color:#fff;margin-top:8px;text-align:center}
+.walkoutBigMeta{display:flex;gap:9px;align-items:center;justify-content:center;color:#eaf5ee;font-size:12px;font-weight:800;margin-top:8px}
+.walkoutBigMeta img{width:22px;height:22px;object-fit:contain}
+.walkoutBigRare{margin-top:auto;font-size:11px;font-weight:1000;letter-spacing:2px;text-transform:uppercase;color:#fff}
+.walkout.r-100 .walkoutBigCard{animation:universeCard 1.1s cubic-bezier(.2,.9,.1,1.1) both}
+.walkout.r-100 .walkoutRoom{
+  background:radial-gradient(circle at 50% 47%,rgba(31,255,119,.18),transparent 22%),linear-gradient(180deg,#000,#03130a 58%,#010a05)
+}
+@keyframes fireBreath{from{opacity:.56;transform:scale(1)}to{opacity:.95;transform:scale(1.08)}}
+@keyframes fireA{from{transform:rotate(-7deg) scale(.93)}to{transform:rotate(-10deg) scale(1.06)}}
+@keyframes fireB{from{transform:scale(.8) rotate(8deg)}to{transform:scale(1.05) rotate(16deg)}}
+@keyframes fireC{from{transform:scale(1) rotate(-4deg)}to{transform:scale(1.12) rotate(-12deg)}}
+@keyframes emberFly{0%{opacity:0;transform:translateY(0) translateX(0) scale(.6)}18%{opacity:1}100%{opacity:0;transform:translateY(-74vh) translateX(40px) scale(1.1)}}
+@keyframes cardPresent{0%{opacity:0;transform:translateY(60px) scale(.72) rotateY(-24deg)}70%{opacity:1;transform:translateY(-8px) scale(1.05) rotateY(4deg)}100%{opacity:1;transform:none}}
+@keyframes universeCard{0%{transform:scale(.62) rotateY(-45deg);filter:brightness(1.5)}60%{transform:scale(1.08) rotateY(8deg);filter:brightness(1.12)}100%{transform:none;filter:none}}
+@media(max-width:700px){
+  .walkoutBigCard{width:245px;height:360px;padding:19px}
+  .walkoutBigPhoto,.walkoutBigInitials{width:150px;height:150px}
+  .walkoutBigName{font-size:24px}.walkoutPresented{height:390px}
+}
+</style>
+
+
+<style id="final-music-ui">
+.musicToggle{
+  position:fixed;right:18px;top:78px;z-index:200;
+  border:1px solid rgba(93,255,160,.35);
+  background:rgba(2,10,6,.82);color:#eaffef;
+  border-radius:999px;padding:9px 13px;font-size:11px;font-weight:1000;
+  letter-spacing:.6px;cursor:pointer;backdrop-filter:blur(10px);
+  box-shadow:0 0 24px rgba(22,255,99,.12);
+  transition:transform .14s ease,box-shadow .16s ease,border-color .16s ease
+}
+.musicToggle:hover{transform:translateY(-1px);border-color:#55ff9a;box-shadow:0 0 28px rgba(22,255,99,.2)}
+.musicToggle.muted{opacity:.72}
+</style>
+
+
+<style id="final-tier-effects">
+.card.insane{
+  border-color:#ff4fe6!important;
+  background:radial-gradient(circle at 50% 0,#ff5ce966,transparent 28%),linear-gradient(145deg,#64155e,#180722 68%,#050108);
+  box-shadow:0 0 34px rgba(255,63,224,.42),inset 0 0 30px rgba(255,62,220,.18);
+}
+.card.icon{
+  border-color:#a899ff!important;
+  background:radial-gradient(circle at 50% 0,#b39cff77,transparent 28%),linear-gradient(145deg,#4a2c86,#140d2b 68%,#05030d);
+  box-shadow:0 0 40px rgba(146,110,255,.48),inset 0 0 34px rgba(175,149,255,.18);
+}
+.card.universe{
+  border-color:#52ffa3!important;
+  background:radial-gradient(circle at 50% 0,#50ffa466,transparent 28%),linear-gradient(145deg,#0c7040,#03190d 68%,#010705);
+  box-shadow:0 0 60px rgba(40,255,125,.55),inset 0 0 42px rgba(58,255,145,.18);
+  animation:universeCardPulse 1.5s ease-in-out infinite;
+}
+@keyframes universeCardPulse{50%{transform:translateY(-3px) scale(1.015);box-shadow:0 0 82px rgba(40,255,125,.72),inset 0 0 58px rgba(58,255,145,.22)}}
+</style>
+
+
+<style id="final-transparent-pitch">
+.pitch{
+  background:
+    radial-gradient(circle at 50% 50%,rgba(79,255,151,.14),transparent 28%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.028) 0 8%,rgba(0,0,0,.028) 8% 16%),
+    linear-gradient(180deg,rgba(8,122,56,.76),rgba(6,99,47,.70) 48%,rgba(5,86,41,.74));
+  backdrop-filter:blur(1.5px);
+  border-color:rgba(57,255,131,.32);
+}
+.pitch:before{
+  border-color:rgba(241,255,246,.27);
+}
+</style>
+
+
+<style id="final-walkout-fx">
+.walkout.r-95 .walkoutRoom{
+  background:radial-gradient(circle at 50% 47%,rgba(255,56,196,.18),transparent 23%),
+             linear-gradient(180deg,#020102,#10020d 58%,#24040f);
+}
+.walkout.r-98 .walkoutRoom{
+  background:radial-gradient(circle at 50% 47%,rgba(123,91,255,.22),transparent 23%),
+             linear-gradient(180deg,#030205,#0e0820 58%,#15062a);
+}
+.walkout.r-100 .walkoutRoom{
+  background:radial-gradient(circle at 50% 47%,rgba(30,255,122,.23),transparent 22%),
+             linear-gradient(180deg,#000,#03180b 58%,#02100a);
+}
+.walkout.r-95 .walkoutBigCard{box-shadow:0 0 60px rgba(255,54,203,.7),0 25px 90px rgba(0,0,0,.65)}
+.walkout.r-98 .walkoutBigCard{box-shadow:0 0 70px rgba(124,93,255,.78),0 25px 90px rgba(0,0,0,.65)}
+.walkout.r-100 .walkoutBigCard{box-shadow:0 0 95px rgba(49,255,142,.95),0 25px 95px rgba(0,0,0,.68)}
+.walkout.r-95 .fireLayer{filter:blur(11px) hue-rotate(285deg);opacity:.55}
+.walkout.r-98 .fireLayer{filter:blur(11px) hue-rotate(205deg);opacity:.50}
+.walkout.r-100 .fireLayer{filter:blur(11px) hue-rotate(75deg);opacity:.40}
+.walkout .walkoutKicker{animation:walkIn .8s cubic-bezier(.2,.9,.2,1),walkoutPulse 1.8s ease-in-out 1s infinite}
+@keyframes walkoutPulse{50%{letter-spacing:7px;filter:brightness(1.18)}}
+</style>
+
+
+<style id="final-fixed-ui">
+.counter{animation:counterPulse 2.4s ease-in-out infinite}
+@keyframes counterPulse{50%{box-shadow:0 0 32px rgba(22,255,99,.52),inset 0 0 14px rgba(22,255,99,.08)}}
+.machine .frame{position:relative}
+.machine .frame:after{
+  content:"";position:absolute;inset:-2px;border-radius:24px;pointer-events:none;
+  background:linear-gradient(100deg,transparent 28%,rgba(255,255,255,.22) 42%,transparent 56%);
+  transform:translateX(-120%);animation:machineSweep 5.8s ease-in-out infinite;
+}
+@keyframes machineSweep{0%,35%{transform:translateX(-120%)}58%,100%{transform:translateX(120%)}}
+</style>
+
+
+<style id="final-pitch-fx">
+.pitch{
+  isolation:isolate;
+}
+.pitch::marker{display:none}
+.pitch .pitchMarkings{mix-blend-mode:screen}
+.pitch:global{position:relative}
+.pitchGlow{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+    radial-gradient(circle at 16% 82%,rgba(90,255,160,.10),transparent 20%),
+    radial-gradient(circle at 84% 18%,rgba(255,255,255,.06),transparent 22%);
+  animation:pitchGlowMove 8s ease-in-out infinite alternate;
+}
+@keyframes pitchGlowMove{from{transform:translate3d(-1%,0,0) scale(1)}to{transform:translate3d(1%,0,0) scale(1.03)}}
+</style>
+
+
+<style id="final-walkout-100x">
+.walkoutRoom:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.75;
+  background:
+    radial-gradient(ellipse at 16% 14%,rgba(255,255,255,.12),transparent 13%),
+    radial-gradient(ellipse at 84% 14%,rgba(255,255,255,.10),transparent 13%),
+    linear-gradient(115deg,transparent 35%,rgba(255,255,255,.03) 36% 38%,transparent 39% 61%,rgba(255,255,255,.025) 62% 64%,transparent 65%);
+}
+.walkoutInner:after{
+  content:"";position:absolute;left:50%;top:45%;width:min(560px,72vw);height:min(560px,72vw);
+  transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 0 0 22px rgba(255,255,255,.012),0 0 0 60px rgba(255,255,255,.008);
+  pointer-events:none;animation:walkRing 2.8s ease-out infinite;
+}
+.walkout.r-95 .walkoutRoom:after{filter:hue-rotate(265deg)}
+.walkout.r-98 .walkoutRoom:after{filter:hue-rotate(205deg)}
+.walkout.r-100 .walkoutRoom:after{filter:hue-rotate(80deg)}
+.walkout.r-95 .walkoutBigCard{transform-origin:center bottom}
+.walkout.r-98 .walkoutBigCard{transform-origin:center bottom}
+.walkout.r-100 .walkoutBigCard{transform-origin:center bottom}
+@keyframes walkRing{0%{opacity:.1;transform:translate(-50%,-50%) scale(.55)}70%{opacity:.34}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1)}}
+</style>
+
+
+<style id="final-error-ui">
+#runtimeError{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%);
+  z-index:9999;display:none;max-width:min(720px,92vw);
+  padding:11px 15px;border:1px solid #ff496a;border-radius:12px;
+  background:rgba(28,3,8,.93);color:#ffd9e0;font-size:12px;font-weight:800;
+  box-shadow:0 0 30px rgba(255,50,90,.18)
+}
+#runtimeError.show{display:block}
+</style>
+
 </head>
 <body>
+<button class="musicToggle" id="musicToggle" type="button" aria-label="Hintergrundmusik stummschalten">🎵 MUSIK AN</button>
+
+<section class="hero" aria-label="Football Draft">
+  <div class="heroKicker">● LIVE DRAFT EXPERIENCE</div>
+  <h1>MAKE THE<br><span style="color:#24ff78">ULTIMATE XI</span></h1>
+  <p>Dark green lights, sharp diagonal energy and big walkout moments – designed around the FC 27-style visual direction you sent.</p>
+</section>
+
 <nav><div class="logo">♛ FOOTBALL <span>DRAFT</span></div><div class="navlinks"><a class="active" href="#">Home</a><a href="#team">Team</a><a href="#index">Index</a><a href="#">Liga</a></div><button class="resetBtn" id="resetBtn">↻ RESET</button><div class="counter">⚡ <span id="rolls">20</span> / 20 Rolls</div></nav>
 
 <main>
@@ -151,7 +602,7 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 
 <section class="panel squad" id="team">
 <div class="squadHead"><div><h2>DEIN TEAM</h2><div class="lead" id="teamCount">0 / 11 Spieler</div></div><div class="overall">⭐ <span id="ovr">0</span></div></div>
-<div class="pitch"><div class="slots">
+<div class="pitch"><div class="pitchGlow"></div><div class="pitchMarkings"><div class="pitchBox top"></div><div class="pitchBox topSmall"></div><div class="pitchBox bottom"></div><div class="pitchBox bottomSmall"></div><div class="pitchArc top"></div><div class="pitchArc bottom"></div></div><div class="slots">
 <div class="row"><div class="slot" data-pos="ST"><small>ST</small></div></div>
 <div class="row"><div class="slot" data-pos="LF"><small>LF</small></div><div class="slot" data-pos="RF"><small>RF</small></div></div>
 <div class="row"><div class="slot" data-pos="ZM1"><small>ZM</small></div><div class="slot" data-pos="ZM2"><small>ZM</small></div><div class="slot" data-pos="ZM3"><small>ZM</small></div></div>
@@ -163,6 +614,7 @@ background:radial-gradient(circle at 50% 50%,#138c3860,transparent 42%),repeatin
 </section>
 
 <section class="panel library" id="index">
+<div class="ratingSourceNote">📊 Bildquelle: TheSportsDB-Spielerporträts (wenn vorhanden); Ratings: FUTBIN/EA SPORTS FC 27. Wertebasis: EA SPORTS FC™ 27 Profiwerte. Deine Draft-Sonderkarten (GEISTESKRANK / ICON / UNIVERSE) sind eigene Spielkarten.</div>
 <div class="libHead">
   <div>
     <h2>SPIELER-INDEX</h2>
@@ -239,6 +691,35 @@ const LEAGUES={
  "Ligue 1":{country:"France",query:["French Ligue 1","Ligue 1"],clubs:["Paris Saint-Germain","AS Monaco","Olympique Marseille","Olympique Lyonnais","Lille OSC","OGC Nice","RC Lens","Stade Rennais","RC Strasbourg","Toulouse FC","Montpellier","Nantes","Brest","Reims","Saint-Étienne","Auxerre","Le Havre","Angers"]}
 };
 const LEAGUE_ICON={Bundesliga:"🇩🇪",LaLiga:"🇪🇸","Premier League":"🏴","Serie A":"🇮🇹","Ligue 1":"🇫🇷"};
+
+const SPECIAL_POOL = [
+  ["Cristiano Ronaldo","ICON",98,"Portugal","ST"],
+  ["Lionel Messi","ICON",98,"Argentina","RF"],
+  ["Pelé","UNIVERSE",100,"Brazil","ST"],
+  ["Diego Maradona","ICON",99,"Argentina","ZM"],
+  ["Ronaldo Nazário","ICON",99,"Brazil","ST"],
+  ["Zinedine Zidane","ICON",98,"France","ZM"],
+  ["Ronaldinho","ICON",98,"Brazil","LF"],
+  ["Johan Cruyff","ICON",99,"Netherlands","ST"],
+  ["Franz Beckenbauer","ICON",98,"Germany","IV"],
+  ["David Beckham","ICON",98,"England","RV"],
+  ["Thierry Henry","ICON",99,"France","ST"],
+  ["Kaká","ICON",98,"Brazil","ZM"],
+  ["Andrés Iniesta","ICON",98,"Spain","ZM"],
+  ["Xavi","ICON",98,"Spain","ZM"],
+  ["Roberto Carlos","ICON",98,"Brazil","LV"],
+  ["Cafu","ICON",98,"Brazil","RV"],
+  ["Iker Casillas","ICON",98,"Spain","TW"],
+  ["Manuel Neuer","GEISTESKRANK",95,"Germany","TW"],
+  ["Moritz Nicolas","UNIVERSE",100,"Germany","TW"],
+  ["Lamine Yamal","GEISTESKRANK",96,"Spain","RF"],
+  ["Kylian Mbappé","GEISTESKRANK",96,"France","ST"],
+  ["Harry Kane","GEISTESKRANK",95,"England","ST"],
+  ["Jamal Musiala","GEISTESKRANK",95,"Germany","ZM"],
+  ["Erling Haaland","GEISTESKRANK",95,"Norway","ST"],
+  ["Vinícius Júnior","GEISTESKRANK",95,"Brazil","LF"]
+];
+
 const SPECIALS=[
  ["Cristiano Ronaldo","LEGEND",99,"🇵🇹"],["Lionel Messi","LEGEND",100,"🇦🇷"],["Pelé","ICON",100,"🇧🇷"],["Diego Maradona","ICON",100,"🇦🇷"],
  ["Ronaldo Nazário","ICON",99,"🇧🇷"],["Zinedine Zidane","ICON",99,"🇫🇷"],["Ronaldinho","ICON",98,"🇧🇷"],["Johan Cruyff","ICON",99,"🇳🇱"],
@@ -254,31 +735,219 @@ let finishShown=false, pendingOverall=0, leaderboard=[];
 const rosterCache=new Map(), badgeCache=new Map();
 const $=id=>document.getElementById(id); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
-function tier(r,special=false){if(special)return"special";if(r>=85)return"gold";if(r>=75)return"silver";return"bronze"}
+function tier(r,special=false){
+  r=Number(r)||0;
+  if(r>=100)return"universe";
+  if(r>=98)return"icon";
+  if(r>=95)return"insane";
+  if(r>=81)return"gold";
+  if(r>=75)return"silver";
+  return"bronze";
+}
+function tierLabel(r){
+  const t=tier(r);
+  return t==="universe"?"🌌 UNIVERSE":t==="icon"?"👑 ICON":t==="insane"?"🤯 GEISTESKRANK":t==="gold"?"GOLD":t==="silver"?"SILBER":"BRONZE";
+}
 function specialChance(p){return SPECIALS.find(x=>x[0].toLowerCase()===String(p.name).toLowerCase())||null}
 function rawPosition(p){return String(p?.position?.abbreviation||p?.position?.name||p?.strPosition||p?.strPosition2||p?.fullPosition||"").toUpperCase().replace(/[._-]+/g," ").replace(/\s+/g," ").trim()}
-function ratingFromPlayer(p){
- const pos=rawPosition(p);
- let r=72;
- if(p.age && p.age>30)r+=4;
- if(pos.includes("FORWARD")||pos.includes("STRIKER"))r+=8;
- if(pos.includes("MID"))r+=7;
- if(pos.includes("BACK")||pos.includes("DEFENDER"))r+=5;
- if(pos.includes("GOAL")||pos.includes("KEEPER"))r+=6;
- return Math.max(60,Math.min(94,r+(hash(p.fullName||p.strPlayer||"")%9)));
+
+const FC27_RATINGS = {
+  // FC Bayern München — EA SPORTS FC 27 official values
+  "Harry Kane":90,"Michael Olise":90,"Joshua Kimmich":88,"Luis Díaz":88,"Dayot Upamecano":87,
+  "Jonathan Tah":87,"Jamal Musiala":87,"Konrad Laimer":85,"Serge Gnabry":83,"Kim Min Jae":83,
+  "Alphonso Davies":82,"Palhinha":82,"Manuel Neuer":81,"Nathaniel Brown":81,
+
+  // Real Madrid — EA SPORTS FC 27 official values
+  "Kylian Mbappé":91,"Thibaut Courtois":90,"Jude Bellingham":90,"Vinícius Júnior":89,
+  "Federico Valverde":87,"Rodrygo":84,"Éder Militão":84,"Antonio Rüdiger":83,"Arda Güler":83,
+  "Eduardo Camavinga":81,"Dean Huijsen":81,"Brahim":81,"Ferland Mendy":80,"Andriy Lunin":80,
+
+  // FC Barcelona — EA SPORTS FC 27 official values
+  "Lamine Yamal":90,"Rodri":90,"Pedri":90,"Raphinha":88,"Pau Cubarsí":86,"Joan García":86,
+
+  // Manchester City — EA SPORTS FC 27 official values
+  "Erling Haaland":91,"Gianluigi Donnarumma":89,"Rúben Dias":87,"Rayan Cherki":86,
+  "Rayan Aït-Nouri":81,"Mateo Kovačić":81,"Savinho":80,"Rico Lewis":77,
+
+  // Liverpool — EA SPORTS FC 27 official values
+  "Virgil van Dijk":88,"Alisson":87,"Dominik Szoboszlai":86,"Alexander Isak":86,
+
+  // Borussia Dortmund — EA SPORTS FC 27 official values
+  "Nico Schlotterbeck":87,"Gregor Kobel":87,"Felix Nmecha":85,"Serhou Guirassy":85,
+
+  // Additional published / main ratings used in the game
+  "Mohamed Salah":89,"Kevin De Bruyne":87,"Phil Foden":86,"Bernardo Silva":84,
+  "Bukayo Saka":87,"Martin Ødegaard":87,"Declan Rice":87,"William Saliba":87,
+  "Virgil van Dijk":88,"Lautaro Martínez":87,"Nicolò Barella":87,"Alessandro Bastoni":87,
+  "Marcus Thuram":86,"Rafael Leão":86,"Theo Hernández":85,"Paulo Dybala":85,
+  "Khvicha Kvaratskhelia":86,"Ousmane Dembélé":90,"Achraf Hakimi":88,
+  "Victor Osimhen":86,"Leroy Sané":85,"Robert Lewandowski":89
+};
+const CLUB_CAPS = {
+  "FC Bayern München":90,"Real Madrid":91,"FC Barcelona":90,"Manchester City":91,
+  "Arsenal":88,"Liverpool":90,"Paris Saint-Germain":90,"Inter":88,"AC Milan":87,
+  "Juventus":87,"Napoli":86,"AS Roma":85,"Lazio":84,"Atalanta":84,"Fiorentina":83,
+  "Borussia Mönchengladbach":83,"Bayer Leverkusen":88,"RB Leipzig":86,
+  "Borussia Dortmund":87,"Union Berlin":81,"VfB Stuttgart":83,"Eintracht Frankfurt":84,
+  "Olympique Marseille":84,"AS Monaco":84,"Lille OSC":83,"RC Lens":81,
+  "Tottenham Hotspur":85,"Chelsea":86,"Manchester United":85,
+  "Newcastle United":84,"Aston Villa":84,"Brighton & Hove Albion":82,
+  "Crystal Palace":81,"West Ham United":81,"Everton":79,
+  "Sevilla FC":82,"Villarreal CF":83,"Athletic Club":83,"Real Sociedad":84,
+  "Atlético Madrid":87,"Girona FC":82,"Valencia CF":80,
+  "Bologna":81,"Torino":80,"Genoa":79,"Udinese":78,"Monza":78,"Cagliari":77,"Parma":79,
+  "Lecce":76,"Empoli":76,"Hellas Verona":77,"Venezia":75,
+  "Nantes":77,"Toulouse FC":79,"Montpellier":77,"Brest":81,"Reims":78,
+  "Saint-Étienne":77,"Auxerre":76,"Le Havre":75,"Angers":75
+};
+function seededPlayerRating(p,club=""){
+  const name=String(p?.strPlayer||p?.name||"");
+  if(FC27_RATINGS[name]) return FC27_RATINGS[name];
+  const cap=CLUB_CAPS[club]||84;
+  const pos=posFrom(p||{});
+  let base=cap-(hash(name)%6);
+  // Keep non-top clubs sensible while preserving the current real-player roster.
+  if(pos==="TW" && cap>=88) base=Math.min(cap,base+1);
+  if(pos==="ST" && cap>=87) base=Math.min(cap,base+1);
+  return Math.max(60,Math.min(cap,base));
 }
+
 function hash(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h}
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2300)}
 function flash(text){$("win").textContent=text;$("win").classList.remove("on");void $("win").offsetWidth;$("win").classList.add("on");$("flash").classList.remove("on");void $("flash").offsetWidth;$("flash").classList.add("on")}
 
-let audio=null,master=null;
-function audioStart(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!audio){audio=new AC();master=audio.createGain();master.gain.value=.82;master.connect(audio.destination)}if(audio.state==="suspended")audio.resume()}
-function tone(f,d=.12,type="sine",g=.08,w=0){audioStart();if(!audio)return;const o=audio.createOscillator(),a=audio.createGain();o.type=type;o.frequency.setValueAtTime(f,audio.currentTime+w);a.gain.setValueAtTime(.001,audio.currentTime+w);a.gain.exponentialRampToValueAtTime(g,audio.currentTime+w+.01);a.gain.exponentialRampToValueAtTime(.001,audio.currentTime+w+d);o.connect(a).connect(master);o.start(audio.currentTime+w);o.stop(audio.currentTime+w+d+.02)}
-function noise(d=.13,g=.025,w=0){audioStart();if(!audio)return;const n=audio.createBufferSource(),b=audio.createBuffer(1,audio.sampleRate*d,audio.sampleRate),data=b.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length);n.buffer=b;const a=audio.createGain();a.gain.value=g;n.connect(a).connect(master);n.start(audio.currentTime+w)}
-function spinSfx(){for(let i=0;i<25;i++){tone(150+(i%9)*17,.04,"square",.035,i*.055);noise(.025,.018,i*.055)}}
-function lockSfx(){tone(180,.09,"square",.12);tone(360,.12,"sawtooth",.08,.07);tone(720,.2,"sine",.14,.14)}
-function mega(){[392,494,587,659,784,988,1175].forEach((f,i)=>{tone(f,.2,"sawtooth",.11,i*.07);tone(f*2,.13,"sine",.04,i*.07)});noise(.5,.07,.1)}
-function reveal(i){const a=[262,330,392,523,659][i];tone(a,.15,"triangle",.1);tone(a*1.5,.18,"sine",.045,.07)}
+let audio=null,master=null,musicBus=null,musicTimer=null,musicMuted=false,musicStarted=false;
+
+function audioStart(){
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  if(!audio){
+    audio=new AC();
+    master=audio.createGain(); master.gain.value=.86; master.connect(audio.destination);
+    musicBus=audio.createGain(); musicBus.gain.value=.075; musicBus.connect(master);
+  }
+  if(audio.state==="suspended")audio.resume();
+  if(!musicStarted)startMenuMusic();
+}
+function tone(f,d=.12,type="sine",g=.08,w=0,bus=master){
+  audioStart();if(!audio||!bus)return;
+  const o=audio.createOscillator(),a=audio.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,audio.currentTime+w);
+  a.gain.setValueAtTime(.001,audio.currentTime+w);
+  a.gain.exponentialRampToValueAtTime(Math.max(.001,g),audio.currentTime+w+.01);
+  a.gain.exponentialRampToValueAtTime(.001,audio.currentTime+w+d);
+  o.connect(a).connect(bus);o.start(audio.currentTime+w);o.stop(audio.currentTime+w+d+.03)
+}
+function sweep(f1,f2,d=.18,type="sine",g=.05,w=0,bus=master){
+  audioStart();if(!audio||!bus)return;
+  const o=audio.createOscillator(),a=audio.createGain();
+  o.type=type;o.frequency.setValueAtTime(f1,audio.currentTime+w);o.frequency.exponentialRampToValueAtTime(f2,audio.currentTime+w+d);
+  a.gain.setValueAtTime(.001,audio.currentTime+w);a.gain.exponentialRampToValueAtTime(g,audio.currentTime+w+.015);a.gain.exponentialRampToValueAtTime(.001,audio.currentTime+w+d);
+  o.connect(a).connect(bus);o.start(audio.currentTime+w);o.stop(audio.currentTime+w+d+.03)
+}
+function noise(d=.13,g=.025,w=0,bus=master){
+  audioStart();if(!audio||!bus)return;
+  const n=audio.createBufferSource(),b=audio.createBuffer(1,Math.max(1,Math.floor(audio.sampleRate*d)),audio.sampleRate),data=b.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length);
+  n.buffer=b;const a=audio.createGain();a.gain.value=g;n.connect(a).connect(bus);n.start(audio.currentTime+w)
+}
+function thump(){
+  tone(72,.16,"sine",.12);sweep(115,55,.18,"sawtooth",.07,.01)
+}
+function shimmer(){
+  [660,880,1175,1568].forEach((f,i)=>tone(f,.18,"sine",.025,i*.045));
+}
+function whoosh(){
+  noise(.18,.028);sweep(120,780,.24,"sine",.035);sweep(70,300,.32,"triangle",.025,.02)
+}
+function spinSfx(){
+  for(let i=0;i<30;i++){tone(145+(i%10)*19,.04,"square",.028,i*.05);noise(.023,.015,i*.05)}
+}
+function lockSfx(){
+  thump();tone(185,.09,"square",.11,.02);tone(370,.12,"sawtooth",.075,.09);tone(740,.22,"sine",.13,.16);shimmer()
+}
+function mega(){
+  thump();whoosh();
+  [392,494,587,659,784,988,1175].forEach((f,i)=>{tone(f,.22,"sawtooth",.10,i*.065);tone(f*2,.13,"sine",.038,i*.065)});
+  noise(.55,.065,.08);shimmer()
+}
+function reveal(i){
+  const a=[262,330,392,523,659][i];tone(a,.15,"triangle",.095);tone(a*1.5,.18,"sine",.04,.07);shimmer()
+}
+function hoverSfx(){tone(540,.035,"sine",.015);tone(810,.05,"sine",.009,.018)}
+function clickSfx(){tone(205,.045,"square",.03);tone(410,.055,"triangle",.021,.018)}
+function softClick(){tone(330,.05,"sine",.024);tone(495,.06,"sine",.018,.018)}
+function successSfx(){tone(392,.08,"triangle",.07);tone(523,.08,"triangle",.07,.07);tone(659,.12,"sine",.06,.14);shimmer()}
+function shopSfx(){tone(240,.05,"square",.04);tone(360,.07,"triangle",.04,.05);tone(720,.14,"sine",.045,.11)}
+function tierSfx(r){
+  r=Number(r)||0;
+  if(r>=100){
+    whoosh();thump();
+    [261,329,392,523,659,784,1046,1318].forEach((f,i)=>{tone(f,.22,"sawtooth",.085,i*.055);tone(f*1.5,.16,"sine",.032,i*.055)});
+    noise(.7,.11,.06);shimmer();return;
+  }
+  if(r>=98){
+    whoosh();[294,370,466,587,740,932,1175].forEach((f,i)=>tone(f,.18,"sawtooth",.07,i*.06));shimmer();return;
+  }
+  if(r>=95){
+    whoosh();[330,415,523,659,830,1046].forEach((f,i)=>tone(f,.14,"triangle",.065,i*.07));return;
+  }
+  successSfx()
+}
+function placeSfx(){tone(330,.07,"square",.05);tone(495,.08,"triangle",.05,.06);tone(660,.13,"sine",.045,.13);shimmer()}
+function errorSfx(){tone(120,.08,"square",.035);tone(90,.11,"sawtooth",.03,.07)}
+
+function startMenuMusic(){
+  if(musicStarted||!audio||!musicBus)return;
+  musicStarted=true;
+  const bpm=76, beat=60/bpm, seq=[
+    [196,246.94,293.66,369.99],[174.61,220,261.63,329.63],
+    [146.83,185,220,293.66],[164.81,207.65,246.94,329.63]
+  ];
+  let bar=0;
+  const playBar=()=>{
+    if(musicMuted||!audio)return;
+    const notes=seq[bar%seq.length],t=audio.currentTime+.05;
+    notes.forEach((f,i)=>{
+      const o=audio.createOscillator(),g=audio.createGain();
+      o.type=i===0?"sine":"triangle";o.frequency.setValueAtTime(f,t);
+      g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(.038/(i+1),t+.45);g.gain.exponentialRampToValueAtTime(.001,t+beat*3.7);
+      o.connect(g).connect(musicBus);o.start(t);o.stop(t+beat*3.9);
+    });
+    // tiny original menu arpeggio
+    [notes[2]*2,notes[3]*2,notes[1]*2,notes[2]*2].forEach((f,i)=>{
+      tone(f,.13,"sine",.010,i*beat*.7,musicBus)
+    });
+    bar++;
+  };
+  playBar();
+  musicTimer=setInterval(playBar,beat*4*1000);
+}
+function toggleMusic(){
+  audioStart();
+  musicMuted=!musicMuted;
+  if(musicBus)musicBus.gain.setTargetAtTime(musicMuted?0:.075,audio.currentTime,.06);
+  const b=$("musicToggle");if(b){b.textContent=musicMuted?"🔇 MUSIK AUS":"🎵 MUSIK AN";b.classList.toggle("muted",musicMuted)}
+  softClick()
+}
+function setupMusicUI(){const b=$("musicToggle");if(b)b.onclick=toggleMusic}
+document.addEventListener("focusin",e=>{
+  const el=e.target.closest?.("button,input,select,.slot,.card,.choice");
+  if(el){audioStart();softClick()}
+});
+function setupUiSfx(){
+  const hoverSel="button,.btn,.choice,.slot,.card,.shopCard,.navlinks a,.pos,.close,.resetBtn,.finishBuildBtn";
+  // Event delegation keeps sounds working for dynamically-created player choices/cards.
+  document.addEventListener("pointerover",e=>{
+    const el=e.target.closest?.(hoverSel);
+    if(el && e.relatedTarget && el.contains(e.relatedTarget))return;
+    if(el && audio)hoverSfx();
+  },{passive:true});
+  document.addEventListener("click",e=>{
+    const el=e.target.closest?.(hoverSel);
+    if(el){audioStart();clickSfx();}
+  },{passive:true});
+}
+
 function specialSound(){[196,247,311,415,554,830].forEach((f,i)=>tone(f,.23,"sawtooth",.09,i*.065));noise(.55,.08,.04)}
 
 function cacheBadge(key,url){if(url)badgeCache.set(key,url);return url||""}
@@ -375,6 +1044,31 @@ function posFrom(p){
  return"ZM";
 }
 
+const NATION_MAP = {
+  "Harry Kane":"England","Kylian Mbappé":"France","Lamine Yamal":"Spain","Jude Bellingham":"England",
+  "Vinícius Júnior":"Brazil","Rodrygo":"Brazil","Federico Valverde":"Uruguay","Thibaut Courtois":"Belgium",
+  "Pedri":"Spain","Raphinha":"Brazil","Robert Lewandowski":"Poland","Erling Haaland":"Norway",
+  "Kevin De Bruyne":"Belgium","Phil Foden":"England","Bernardo Silva":"Portugal","Bukayo Saka":"England",
+  "Martin Ødegaard":"Norway","Declan Rice":"England","William Saliba":"France","Mohamed Salah":"Egypt",
+  "Virgil van Dijk":"Netherlands","Luis Díaz":"Colombia","Alisson":"Brazil","Lautaro Martínez":"Argentina",
+  "Nicolò Barella":"Italy","Alessandro Bastoni":"Italy","Marcus Thuram":"France","Rafael Leão":"Portugal",
+  "Theo Hernández":"France","Paulo Dybala":"Argentina","Khvicha Kvaratskhelia":"Georgia",
+  "Ousmane Dembélé":"France","Achraf Hakimi":"Morocco","Gianluigi Donnarumma":"Italy","Victor Osimhen":"Nigeria",
+  "Leroy Sané":"Germany","Jamal Musiala":"Germany","Alphonso Davies":"Canada","Dayot Upamecano":"France",
+  "Manuel Neuer":"Germany","Nico Schlotterbeck":"Germany","Gregor Kobel":"Switzerland","Serhou Guirassy":"Guinea"
+};
+function flagFor(name,nation=""){
+  const n=String(nation||NATION_MAP[name]||"").toLowerCase();
+  const flags={"england":"🏴","france":"🇫🇷","spain":"🇪🇸","brazil":"🇧🇷","uruguay":"🇺🇾","belgium":"🇧🇪",
+    "poland":"🇵🇱","norway":"🇳🇴","portugal":"🇵🇹","egypt":"🇪🇬","netherlands":"🇳🇱","colombia":"🇨🇴",
+    "italy":"🇮🇹","argentina":"🇦🇷","georgia":"🇬🇪","morocco":"🇲🇦","nigeria":"🇳🇬","germany":"🇩🇪",
+    "canada":"🇨🇦","switzerland":"🇨🇭","guinea":"🇬🇳"};
+  return flags[n]||"🌍";
+}
+function initials(name){
+  return String(name||"").split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"XI";
+}
+
 function makeReels(items){
  const rs=$("reels");rs.innerHTML="";
  for(let c=0;c<5;c++){const cell=document.createElement("div");cell.className="reelCell";const strip=document.createElement("div");strip.className="strip";
@@ -430,20 +1124,82 @@ async function draft(){
  }
  // Pick five real players. No invented names are used.
  const shuffled=[...roster].sort(()=>Math.random()-.5).slice(0,5);
- current=shuffled.map(p=>({name:p.strPlayer,pos:posFrom(p),rating:Math.min(94,ratingFromPlayer(p)),team:club,league}));
+ current=shuffled.map(p=>({name:p.strPlayer,pos:posFrom(p),rating:seededPlayerRating(p,club),team:club,league,nation:p.strNationality||p.strCountry||"",image:p.strThumb||p.strCutout||"",badge:clubBadge}));
  current.forEach(registerPlayer); renderLibrary();
  $("empty").style.display="none";$("chosen").style.display="block";$("teamName").textContent=club;$("leagueName").textContent=`${LEAGUE_ICON[league]} ${league}`;
  $("teamBadge").src=clubBadge||badge; $("teamBadge").alt=club;
  $("choiceList").innerHTML="";
  for(let i=0;i<current.length;i++){
-   await sleep(430);const p=current[i];reveal(i);
+   await sleep(430);const p=current[i];reveal(i);if(p.rating>=95 && !document.querySelector(".walkout.show")) await playWalkout(p);
    const el=document.createElement("div");el.className="choice in";
-   el.innerHTML=`<div class="miniCard" style="background:linear-gradient(145deg,#ffd862,#825e17)"><b>${p.rating}</b></div><div><div class="choiceName">${esc(p.name)}</div><div class="choiceMeta">${esc(p.pos)} · ${tier(p.rating).toUpperCase()}</div><div class="choicePick">KLICKEN → EINSETZEN</div></div><div class="choiceRating">${p.rating}</div>`;
+   el.innerHTML=`<div class="miniCard" style="background:linear-gradient(145deg,#ffd862,#825e17)"><b>${p.rating}</b></div><div><div class="choiceName">${esc(p.name)}</div><div class="choiceMeta">${esc(p.pos)} · ${tierLabel(p.rating)}</div><div class="choicePick">KLICKEN → EINSETZEN</div></div><div class="choiceRating">${p.rating}</div>`;
    el.onclick=()=>openPlacement(p);$("choiceList").appendChild(el);
  }
  // Very rare all-time / future icon jackpot, entirely separate from the club roster.
- if(Math.random()<0.035){await sleep(450);specialSound();const s=SPECIALS[Math.floor(Math.random()*SPECIALS.length)];const isNicolas=s[0]==="Moritz Nicolas";const p={name:s[0],pos:isNicolas?"TW":"ST",rating:s[2],team:isNicolas?"Borussia Mönchengladbach":"LEGEND",league:isNicolas?"Bundesliga":"SPECIAL",special:true};current.push(p);registerPlayer(p);renderLibrary();const el=document.createElement("div");el.className="choice in";el.style.borderColor="#e45cff";el.innerHTML=`<div class="miniCard" style="background:linear-gradient(145deg,#ff43d5,#5723dd)"><b>${s[2]}</b></div><div><div class="choiceName">🤯 ${esc(s[0])}</div><div class="choiceMeta">GEISTESKRANK · ${esc(s[1])}${isNicolas?" · TW · BMG":""}</div><div class="choicePick">SPEZIAL-PICK → EINSETZEN</div></div><div class="choiceRating">${s[2]}</div>`;el.onclick=()=>openPlacement(p);$("choiceList").appendChild(el);flash("🤯 GEISTESKRANK!");toast("🤯 GEISTESKRANKE Spezialkarte!");}
+ if(Math.random()<0.12){await sleep(450);specialSound();const s=SPECIAL_POOL[Math.floor(Math.random()*SPECIAL_POOL.length)];const isNicolas=s[0]==="Moritz Nicolas";const p={name:s[0],pos:s[4],rating:s[2],team:isNicolas?"Borussia Mönchengladbach":"LEGEND",league:isNicolas?"Bundesliga":"SPECIAL",special:true,nation:s[3],rarity:s[1]};current.push(p);registerPlayer(p);renderLibrary();const el=document.createElement("div");el.className="choice in";el.style.borderColor="#e45cff";el.innerHTML=`<div class="miniCard" style="background:${s[2]>=100?"linear-gradient(145deg,#1fff7a,#0a5a31)":s[2]>=98?"linear-gradient(145deg,#bcaeff,#4c2ca8)":"linear-gradient(145deg,#ff43d5,#5723dd)"}"><b>${s[2]}</b></div><div><div class="choiceName">🤯 ${esc(s[0])}</div><div class="choiceMeta">${tierLabel(s[2])} · ${esc(s[1])}${isNicolas?" · TW · BMG":""}</div><div class="choicePick">SPEZIAL-PICK → EINSETZEN</div></div><div class="choiceRating">${s[2]}</div>`;el.onclick=()=>{placeSfx();openPlacement(p)};$("choiceList").appendChild(el);flash(`${tierLabel(p.rating)}!`);toast(`${tierLabel(p.rating)} Spezialkarte!`);if(!document.querySelector(".walkout.show")) await playWalkout(p);}
  $("machineState").textContent="PICK";$("status").textContent=adminMode?"WÄHLE DEINEN SPIELER · ∞ Rolls":(rolls?`WÄHLE DEINEN SPIELER · ${rolls} Rolls übrig`:"ALLE ROLLS VERBRAUCHT");busy=false;updateShopUI();
+}
+
+
+function rarityClassForWalkout(r){
+  r=Number(r)||0;
+  return r>=100?"universe":r>=98?"icon":"insane";
+}
+
+async function playWalkout(p){
+  const r=Number(p?.rating)||0;
+  if(r<95)return;
+  const root=$("walkout"),steps=$("walkoutSteps"),presented=$("walkoutPresented"),cont=$("walkoutContinue");
+  const variant=r>=100?"r-100":r>=98?"r-98":"r-95";
+  root.className="walkout show "+variant;
+  root.setAttribute("aria-hidden","false");
+  steps.innerHTML="";presented.innerHTML="";presented.classList.remove("show");cont.classList.remove("show");
+  audioStart();whoosh();await sleep(320);thump();await sleep(450);
+
+  // Long dramatic beats between each reveal.
+  const nation=p.nation||({"Harry Kane":"England","Kylian Mbappé":"France","Lamine Yamal":"Spain"}[p.name]||"");
+  const flag=flagFor(p.name,nation);
+  const values=[["POSITION",p.pos||"ST"],["VEREIN",p.team||"LEGEND"],["FLAGGE",flag]];
+  for(let i=0;i<values.length;i++){
+    const [label,val]=values[i];
+    const el=document.createElement("div");
+    el.className="walkoutReveal";
+    el.innerHTML=`<div class="walkoutLabel">${label}</div><div class="walkoutValue">${esc(val)}</div>`;
+    steps.appendChild(el);void el.offsetWidth;el.classList.add("show");
+    whoosh();tone(310+i*125,.18,"triangle",.065);shimmer();thump();
+    await sleep(1850);
+  }
+
+  await sleep(600);
+  const clubLogo=p.badge?`<img src="${esc(p.badge)}" alt="" loading="lazy">`:"<span>⚽</span>";
+  const photo=p.image
+    ? `<img class="walkoutBigPhoto" src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">`
+    : `<div class="walkoutBigInitials">${esc(initials(p.name))}</div>`;
+  const cls=rarityClassForWalkout(r);
+  presented.innerHTML=`<div class="walkoutBigCard ${cls}">
+    <div class="wbTop"><div><div class="wbRating">${r}</div><div class="wbPos">${esc(p.pos||"ST")}</div></div><div class="wbLabel">${esc(tierLabel(r))}</div></div>
+    ${photo}
+    <div class="walkoutBigName">${esc(p.name||"UNKNOWN")}</div>
+    <div class="walkoutBigMeta"><span>${flag}</span>${clubLogo}<span>${esc(p.team||"LEGEND")}</span></div>
+    <div class="walkoutBigRare">⭐ ${esc(tierLabel(r))}</div>
+  </div>`;
+  presented.classList.add("show");
+  thump();await sleep(120);whoosh();shimmer();
+  $("machineState").textContent="WALKOUT";
+  flash(r>=100?"🌌 UNIVERSE 100 GES 🌌":r>=98?"👑 ICON WALKOUT":"🤯 GEISTESKRANK WALKOUT");
+  tierSfx(r);
+  await sleep(r>=100?3100:r>=98?2700:2300);
+  cont.classList.add("show");
+  cont.focus?.();
+  await new Promise(resolve=>{
+    cont.onclick=()=>{
+      cont.onclick=null;
+      root.classList.remove("show");root.setAttribute("aria-hidden","true");
+      $("machineState").textContent="PICK";
+      $("status").textContent=adminMode?"WÄHLE DEINEN SPIELER · ∞ Rolls":(rolls?`WÄHLE DEINEN SPIELER · ${rolls} Rolls übrig`:"ALLE ROLLS VERBRAUCHT");
+      clickSfx();successSfx();resolve();
+    };
+  });
 }
 function stage(n){["st1","st2","st3"].forEach((id,i)=>$(id).classList.toggle("on",i===n))}
 
@@ -462,7 +1218,7 @@ function existing(slot){return team.find(x=>x.slot===slot)}
 function openPlacement(p){pending=p;$("modalTitle").textContent=`${p.name} · ${p.rating} GES`;$("modalText").textContent="Position wählen. Ein belegter Slot wird ersetzt; der bisherige Spieler geht sicher auf die Bank.";
  const opts=compatible(p.pos);$("positions").innerHTML=opts.map(s=>{const old=existing(s);return `<button class="pos" data-slot="${s}">${s}<br><small>${old?`↔ ${esc(old.name)}`:"FREI"}</small></button>`}).join("");document.querySelectorAll(".pos").forEach(b=>b.onclick=()=>place(p,b.dataset.slot));$("modal").classList.add("show")}
 function place(p,slot){
- const old=existing(slot);if(old){bank.push(old);toast(`↔ ${old.name} geht auf die Bank – ${p.name} übernimmt ${slot}.`)}
+ const old=existing(slot);if(old){bank.push(old);toast(`↔ ${old.name} geht auf die Bank – ${p.name} übernimmt ${slot}.`)} placeSfx();
  team=team.filter(x=>x.slot!==slot);team.push({...p,slot});unlockPlayer(p);addGoldToken(p);current=[];$("modal").classList.remove("show");$("rolls").textContent=rolls;$("status").textContent=rolls?`Pick gespeichert · ${rolls} Rolls übrig`:"🏆 20 ROLLS VERBRAUCHT";$("choiceList").innerHTML=`<div style="text-align:center;color:#93a998;padding:12px">Pick gespeichert · nächster Roll bereit.</div>`;renderTeam();saveGame();mega();if(rolls<=0)$("rollBtn").disabled=true;
  if(team.length<11)finishShown=false;
  
@@ -472,9 +1228,40 @@ $("saveScore").onclick=submitScore;$("closeFinish").onclick=()=>$("finishModal")
 $("finishBuildBtn").onclick=()=>{if(team.length===11)showFinish();};$("finishModal").onclick=e=>{if(e.target.id==="finishModal")$("finishModal").classList.remove("show")};$("finishName").addEventListener("keydown",e=>{if(e.key==="Enter")submitScore()});
 $("rollBtn").onclick=draft;
 
+function formationCard(x){
+  const t=tier(x.rating,x.special), flag=flagFor(x.name,x.nation), photo=x.image;
+  const cls=t==="gold"?"fcGold":t==="silver"?"fcSilver":t==="bronze"?"fcBronze":t==="insane"?"fcInsane":t==="icon"?"fcIcon":"fcUniverse";
+  const photoHtml=photo
+    ? `<img class="formationPhoto" src="${esc(photo)}" alt="${esc(x.name)}" loading="lazy">`
+    : `<div class="formationPhoto fallbackPhoto">${esc(initials(x.name))}</div>`;
+  const clubMark=x.badge?`<img class="formationClubLogo" src="${esc(x.badge)}" alt="" loading="lazy">`:`<span class="formationClubLogoFallback">⚽</span>`;
+  const label=tierLabel(x.rating);
+  return `<div class="formationCard ${cls}" title="${esc(x.name)} · ${x.rating} GES">
+    <div class="fcShine"></div>
+    <div class="fcTop"><div><b class="fcRating">${x.rating}</b><b class="fcPos">${esc(x.pos)}</b></div><span class="fcRare">${esc(label)}</span></div>
+    <div class="fcPhotoWrap">${photoHtml}</div>
+    <div class="fcName">${esc(x.name)}</div>
+    <div class="fcBottom"><span class="fcFlag">${flag}</span>${clubMark}<span class="fcTeam">${esc(String(x.team||"").split(" ").slice(0,2).join(" "))}</span></div>
+    <div class="fcBadge">${esc(x.pos)}+</div>
+  </div>`;
+}
 function renderTeam(){
- document.querySelectorAll(".slot").forEach(el=>{const x=existing(el.dataset.pos);if(x){el.classList.add("filled");el.innerHTML=`<small>${x.pos}</small><strong>${esc(x.name)}</strong>`}else{el.classList.remove("filled");el.innerHTML=`<small>${el.dataset.pos.replace(/[0-9]/g,"")}</small>`}});
- $("teamCount").textContent=`${team.length} / 11 Spieler`;$("ovr").textContent=team.length?Math.round(team.reduce((a,x)=>a+x.rating,0)/team.length):0;$("finishBuildBtn").disabled=team.length!==11;$("bank").innerHTML=bank.length?`Bank: <b>${bank.map(x=>esc(x.name)).join(" · ")}</b>`:`Bank: <b>leer</b>.`;
+  document.querySelectorAll(".slot").forEach(el=>{
+    const x=existing(el.dataset.pos);
+    if(x){
+      el.classList.add("filled");
+      el.innerHTML=formationCard(x);
+      el.onclick=()=>openPlacement(x);
+    }else{
+      el.classList.remove("filled");
+      el.innerHTML=`<div class="emptySlot"><span>+</span><small>${el.dataset.pos.replace(/[0-9]/g,"")}</small></div>`;
+      el.onclick=()=>{audioStart();tone(170,.07,"square",.03);toast(`Position ${el.dataset.pos.replace(/[0-9]/g,"")} ist noch frei.`)};
+    }
+  });
+  $("teamCount").textContent=`${team.length} / 11 Spieler`;
+  $("ovr").textContent=team.length?Math.round(team.reduce((a,x)=>a+x.rating,0)/team.length):0;
+  $("finishBuildBtn").disabled=team.length!==11;
+  $("bank").innerHTML=bank.length?`Bank: <b>${bank.map(x=>esc(x.name)).join(" · ")}</b>`:`Bank: <b>leer</b>.`;
 }
 
 
@@ -500,7 +1287,7 @@ const STATIC_CATALOG = [
  ["Ousmane Dembélé","RF",90,"Paris Saint-Germain","Ligue 1"],["Achraf Hakimi","RV",88,"Paris Saint-Germain","Ligue 1"],
  ["Gianluigi Donnarumma","TW",89,"Paris Saint-Germain","Ligue 1"],["Victor Osimhen","ST",89,"Galatasaray","Other"]
 ];
-for(const x of STATIC_CATALOG){const p={name:x[0],pos:x[1],rating:x[2],team:x[3],league:x[4]};discoveredCatalog.set(x[0],p)}
+for(const x of STATIC_CATALOG){const p={name:x[0],pos:x[1],rating:FC27_RATINGS[x[0]]||x[2],team:x[3],league:x[4],nation:NATION_MAP[x[0]]||"",image:""};discoveredCatalog.set(x[0],p)}
 for(const s of SPECIALS){const isNicolas=s[0]==="Moritz Nicolas";discoveredCatalog.set(s[0],{name:s[0],pos:isNicolas?"TW":"ST",rating:s[2],team:isNicolas?"Borussia Mönchengladbach":"Legends",league:isNicolas?"Bundesliga":"SPECIAL",special:true});}
 
 function calcOverall(){return team.length?Math.round(team.reduce((a,x)=>a+Number(x.rating||0),0)/team.length):0;}
@@ -677,7 +1464,25 @@ function renderLibrary(){
  $("totalCount").textContent=all.length;
 }
 $("search").oninput=renderLibrary;$("tierFilter").onchange=renderLibrary;
-loadGame();renderLeagues();renderLibrary();renderTeam();updateShopUI();
+setupMusicUI();loadGame();renderLeagues();renderLibrary();renderTeam();updateShopUI();
 </script>
+
+<div id="runtimeError">⚠️ Ein UI-Fehler wurde erkannt. Aktualisiere die Seite, um den Draft sauber neu zu starten.</div>
+<footer style="margin:34px auto 18px;text-align:center;color:#6f8978;font-size:11px;letter-spacing:2px;font-weight:1000;text-transform:uppercase">
+  Made by <span style="color:#20ff77">Elmo</span>
+</footer>
+
+<div class="walkout" id="walkout" aria-hidden="true">
+  <div class="walkoutRoom">
+    <div class="fireLayer"></div>
+    <div class="emberField"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="walkoutInner">
+      <div class="walkoutKicker" id="walkoutKicker">⚠️ WALKOUT ⚠️</div>
+      <div id="walkoutSteps"></div>
+      <div id="walkoutPresented" class="walkoutPresented"></div>
+      <button id="walkoutContinue" class="walkoutContinue">WEITER → AUSWÄHLEN</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
