@@ -2150,7 +2150,7 @@ function calcOverall(){return team.length?Math.round(team.reduce((a,x)=>a+Number
    Solange ONLINE_DB_URL leer ist, läuft die Liste nur lokal im Browser (wie vorher).
    Einrichtung: siehe Anleitung in der Antwort / README.
    Format der URL:  https://DEIN-PROJEKT-default-rtdb.europe-west1.firebasedatabase.app   (ohne / am Ende) */
-const ONLINE_DB_URL="";
+const ONLINE_DB_URL="https://football-draft-68733-default-rtdb.europe-west1.firebasedatabase.app";
 const LB_CACHE_KEY="footballDraftLeaderboardCacheV2";
 (function(){try{if(!localStorage.getItem("footballDraftRecordsReset7")){localStorage.removeItem(LEADERBOARD_KEY);localStorage.removeItem(LB_CACHE_KEY);localStorage.setItem("footballDraftRecordsReset7","1")}}catch(e){}})();
 let lbOnline=false, scoreSending=false;
