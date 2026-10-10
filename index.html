@@ -1064,6 +1064,24 @@ body{overflow-x:clip!important;max-width:100%;overscroll-behavior-x:none}
 }
 @media(max-width:800px){nav .logo{margin-right:auto}}
 @media(max-width:800px){.musicPanel{top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom));right:10px!important;padding:3px 10px 3px 4px;gap:6px;backdrop-filter:none!important;background:rgba(2,10,6,.94)}.musicVol{width:64px!important}.musicPanel #musicPct,.musicPanel .musicPct,.musicPanel output{display:none}}
+
+/* v9: Walkout auf Handys ruhig & stabil (keine Filter/Blends/Dauer-Animationen) */
+@keyframes moPop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@media(hover:none),(max-width:800px){
+ .walkout,.walkout *{filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;mix-blend-mode:normal!important}
+ .walkout .fireLayer,.walkout .woRays,.walkout .woSpot,.walkout:before,.walkout:after,.walkoutRoom:before,.walkoutRoom:after,.walkoutInner:before,.walkoutInner:after{display:none!important}
+ .walkout.show{animation:none!important}
+ .walkout.shake,.walkout.shake *{animation-name:none}
+ .walkout .walkoutKicker{animation:none!important}
+ .walkout .woBtn,.walkout .walkoutContinue{animation:none!important}
+ .walkoutPresented.show{animation:none!important;opacity:1}
+ .walkoutPresented.show .fc{animation:moPop .55s cubic-bezier(.2,.9,.2,1) both!important;transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+ .walkoutPresented .fc .fc-shine{display:none!important}
+ .walkoutPresented .fc{will-change:auto}
+ .woBurst span{box-shadow:none!important}
+ .woFlash.go{animation-duration:.35s}
+ .walkoutPresented .fc img{opacity:1!important;visibility:visible!important}
+}
 </style>
 </head>
 <body class="prelaunch">
@@ -1963,6 +1981,8 @@ async function playWalkout(p){
   skip.onclick=woSkipNow;
   audioStart();
   $("machineState").textContent="WALKOUT";
+  // Bild + Wappen schon im Intro laden, damit der Spieler beim Reveal sofort da ist (Handy: kein Lazy-Loading im Overlay)
+  [p.image,p.badge].forEach(u=>{if(u){const im=new Image();im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;}});
 
   // 1) Intro: Dunkelheit, Scheinwerfer, Publikum
   woIntroSfx(kind);
@@ -1996,7 +2016,7 @@ async function playWalkout(p){
   if(skipped)woNewBus();
   root.classList.add("build","reveal","shake");
   $("woFlash").classList.add("go");$("woRing").classList.add("go");woBurstFx(kind);
-  presented.innerHTML=fcCard(p);presented.classList.add("show");
+  presented.innerHTML=fcCard(p).replace(/loading="lazy"/g,'loading="eager"');presented.classList.add("show");
   woRevealSfx(kind);
   await new Promise(r=>setTimeout(r,skipped?650:WO_HOLD[kind]));
   root.classList.remove("shake");
